@@ -11,7 +11,16 @@ hello everyone, i'm ht
 - [docker编译](#docker_compile)
 - [gitlab-ci](#gitlab-ci)
 - [syslog安装](#syslog-ng)
-- [集群分布式](# 集群分布式)
+- [集群分布式](#集群分布式)
+- [启动虚拟机](#启动虚拟机)
+- [mirror link](#mirror_link)
+- [frp](#frp)
+- [路由添加](#路由添加)
+- [查看上电时间](#查看上电时间)
+- [启动django](#启动django)
+- [路由添加](#路由添加)
+- [systemd-timesyncd](#systemd-timesyncd)
+- [考勤机](#考勤机)
 
 # android_compile
 
@@ -196,7 +205,8 @@ pytz: timezone,需要/etc/localtime配置文件，但是unix.py系统文件里�
 ```
 * 编译安卓uboot,kernel,sdk：
 ```
-repo init --repo-url ssh://git@www.rockchip.com.cn/repo/rk/tools/repo -u ssh://git@www.rockchip.com.cn/gerrit/rk/platform/manifest -b android-7.0 -m rk3328_box_nougat_release.xml
+repo init --repo-url 
+ssh://git@www.rockchip.com.cn/repo/rk/tools/repo -u ssh://git@www.rockchip.com.cn/gerrit/rk/platform/manifest -b android-7.0 -m rk3328_box_nougat_release.xml
 中间碰到代码拉不下来，执行了.repo/repo/repo sync --force-sync
 https://blog.csdn.net/kc58236582/article/details/72468770安卓预编译服务器
 1：Communication error with Jack server (58), try 'jack-diagnose' or see Jack server log
@@ -263,6 +273,8 @@ ssh -NfR 6670:localhost:9999 ici@m.vegcloud.tech  //将本机的9999端口映射
 -R：远程转发 
 -L：本地转发
 如果出现ERR_UNSAFE_PORT，要么改变需要代理的端口，要么修改浏览器属性，起浏览器的时候添加参数--explicitly-allowed-ports=87,6666,556,6667，其中后面逗号隔开的是允许的端口
+如果ssh 断开就反向隧道结束，所以用autossh:
+autossh -M 5678 -NR 1234:localhost:2223 user1@123.123.123.123 -p22利用5678端口来监听22连接，断了就重连，autosh默认后台执行
 ```
 # git_origin
 ```
@@ -314,4 +326,126 @@ pacman -S syslog-ng
 集群分布式
 首先我们先了解一下分布式和集群的由来。在开始的时候，网站都是一个简单的架构，例如LAMP的架构，就在一台服务器上部署了各种应用程序，访问的人少，服务器能轻松应对。当请求量增大的时候，服务器的资源已经扛不住这种压力了，从而将相关的应用放在不同的服务器上，提供更好的性能，当请求量进一步增大的时候，应用jboss和mysql可能都不能抗住这种请求压力了，从而也就引出了集群的由来
 
+```
+#启动虚拟机
+```
+root@vbg-m8105:~# virsh 
+Welcome to virsh, the virtualization interactive terminal.
+
+Type:  'help' for help with commands
+       'quit' to quit
+
+virsh # list 
+ Id    Name                           State
+----------------------------------------------------
+ 3     ArchLinux-24.ovf               running
+ 4     ArchLinux-3.ovf                running
+ 5     ArchLinux-4.ovf                running
+ 6     ArchLinux-5.ovf                running
+ 7     ArchLinux-6.ovf                running
+ 8     ArchLinux-7.ovf                running
+
+virsh # start ArchLinux-1.ovf
+Domain ArchLinux-1.ovf started
+
+virsh # start ArchLinux-2.ovf
+Domain ArchLinux-2.ovf started
+
+virsh # list
+ Id    Name                           State
+----------------------------------------------------
+ 3     ArchLinux-24.ovf               running
+ 4     ArchLinux-3.ovf                running
+ 5     ArchLinux-4.ovf                running
+ 6     ArchLinux-5.ovf                running
+ 7     ArchLinux-6.ovf                running
+ 8     ArchLinux-7.ovf                running
+ 9    ArchLinux-1.ovf                running
+ 10    ArchLinux-2.ovf                running
+```
+# mirror_link
+```
+http://mirror.mozy.com/archlinux/core/os/x86_64/历史版本查找链接
+```
+# frp
+* frp研究
+v0.10.0版本之前 客户端和服务器端需要为每一个用户请求创建一个连接，每个用户是指在frpc.ini文件里的每一个section都会建立一个tcp链接
+之后的版本只会在客户端和服务端建立一个tcp链接，tcp多路复用,然后起4个goroutine去做不同的事情：阻塞的等待svr.closedCh,controler一直注意closedCh的状态，发现旧的连接关掉会建立一个新的连接。每隔10s检查代理注册是否有，读controller的closedCh是否有数据，决定是否重连接到frps服务，manager handles all channel events and do corresponding process默认30s心跳定时器，1s心跳检查定时器，每隔30s像sendCh发送一个ping包，该包会被writer读走，发送给frps服务，每隔1s会检查有个pong时间间隔是否超过了90秒，超过了就会将ctl.conn关掉，这样会使得reader停掉，读从frps端发过来的包，更新pong时间，
+每隔30s心跳交互一次
+# 路由添加
+```
+在内网pc机添加路由到10.4.32.0网段
+mac  查看路由命令：netstat -nr
+mac：sudo route -n add -net 10.4.32.0 -netmask 255.255.254.0 172.21.30.127
+route add -net 10.4.32.0 netmask 255.255.254.0 gw 172.21.30.127
+windowns:
+route add 10.4.32.0 mask 255.255.254.0 172.21.30.127 -p
+```
+# 启动django
+```
+./manage.py runserver 0.0.0.0:8000 --settings=dc.settings.develop
+./manage.py runserver 0.0.0.0:8001 --insecure
+```
+# 查看上电时间
+```
+查看系统上电起来时间：
+date -d "$(awk -F. '{print $1}' /proc/uptime) second ago" +"%Y-%m-%d %H:%M:%S"
+```
+# systemd-timesyncd
+* systemd-timesyncd每次收到一个新的NTP同步请求时，后台服务就把当前时间保存到磁盘，并尽可能在系统启动时修正系统时间，这样处理的目的是为了适应像Raspberry Pi和嵌入式设备这种缺少 RTC 的系统，并确保这些系统时单点处理。
+# 考勤机
+* 转化csv文件命令
+```
+cat user.csv | awk -F',' '{printf("%s,%s,,,0,,True,1,,,,0\n", $2,$5)}'>new.csv
+```
+## 遇到问题
+* sdk使用前先注册Register_SDK.bat，使用udp协议，端口4370
+* 有时候进不了管理界面？
+```
+可以通过删掉所有用户重新添加超级管理员来解决，或者直接删掉administrators亦可以解决
+```
+* 登记人脸一直登记不进去？
+```
+因为人脸已经录入过，可以通过进入管理员界面，删掉已经录入的人脸解决
+```
+* enable位标识用户启用标记？
+```
+1为启用，0为禁用，当将管理员用户设置0禁用的话，它将无法登陆到管理界面
+```
+* 为什么 For idwFingerIndex = 0 To 9，是0到9？
+```
+因为人只有10只手指头。index分别为不同的手指头0~9
+```
+* flag是什么意思？
+```
+flag表示指纹是否有效或者是否为胁迫指纹，0：指纹无效，1：指纹有效，2：胁迫指纹
+```
+* 中文名字上传乱码问题？
+```
+解决方案1：因为Windows上csv文件保存以ANSI格式保存，所以代码里读出来中文是乱码，可以将csv文件转换未utf-8保存就行
+解决方案2：通过代码里面保存文件为utf-8解决
+由于我们可能用英文保存用户，所以如果有中文需求，就直接用方案1解决
+```
+* userinfo工程用于下载（到csv文件）和上传(从csv文件读取)用户信息，反正就是跟用户相关的，添加了用户刷卡或者人脸或者指纹成功之后发送实时消息给rest api，添加了下载考勤数据和清除考勤数据，用ut-iot的wifi导出324个用户话19分10s左右时间，批量上传花接近20s
+* attLogs用于下载考勤记录到csv 文件和清楚考勤记录（转移到userinfo）
+* RTEvents用于有考勤校验成功就发送数据给其他rest api,并且在发送失败的地方记log(转移至userinfo)
+* Card Management用来操作卡，获取卡号，写用户卡号，这两个功能都已经在userinfo中已经实现，还有一个empty和write card功能，可以将用户指纹信息写如卡中
+* 管理记录下载流程？
+```
+没有sample code
+```
+* 可以设置开门延时时间的，都在access control里
+```
+GetACFun参数返回值为1，文档说15是有门禁？
+工程里都是用户时间段，开门延时等的一些控制
+```
+* 可以实现下高速上传，对比下速度，批量上传大概是逐个上传速度的4倍（一个6s,一个23s,325个用户测试）
+* 每个用户都有15张人脸模板，每个模板2576字节，各个不同角度。
+* 删除一个用户，它的考勤记录是否会删掉？
+```
+没有删掉，还在
+```
+* 考勤成功是否含有头像？
+```
+只有在有录入该人脸的设备上有人脸
 ```
