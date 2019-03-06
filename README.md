@@ -17,13 +17,13 @@ LOCAL_POST_PROCESS_COMMAND := $(shell cp -r $(LOCAL_PATH)/*.apk $(TARGET_OUT)/ap
 
 * 执行make -j8，会将Prebuild_apps的文件拷贝至out/target/product/roc_rk3328_cc_box/system/app,如果apk文件里包含so文件，解压apk，如其中lib(.so)文件，把 .so文件copy到system\lib下， 再编译，这样第三放apk就编译进system.img里了，会在/system/app目录下
 * 将/system/app/Prebuilt_apps的文件拷贝到/data/app，这样上电起来，会安装data/app下的apk。
-* 可以在/system/bin下新建run_apk.sh脚本，内容：
+* 可以在/system/bin下新建run_apk.sh脚本，内容
 ```
   busybox cp /system/app/xxx.apk data/app
   chmod 777 data/app/xxx.apk
 ```
 
-* 在system/core/rootdir/init.rc添加内容：
+* 在system/core/rootdir/init.rc添加内容
 ```
 service run_apk /system/bin/run_apk.sh 
 class main 
@@ -47,15 +47,16 @@ index a2834af..b078a7b 100755
 +/system/bin/commontools            u:object_r:commontools_exec:s0
 
  /dev/vendor_storage              u:object_r:storage_device:s0
+ 
 ```
-* 添加device/rockchip/common/sepolicy/commontools.te文件，其内容：
+* 添加device/rockchip/common/sepolicy/commontools.te文件，其内容
 ```
 wfx@OptiPlex-9020:~/proj/roc-rk3328-cc$ cat device/rockchip/common/sepolicy/commontools.te
 type commontools, domain;
 type commontools_exec, exec_type, file_type;
 init_daemon_domain(commontools)
 ```
-* 添加out/target/product/roc_rk3328_cc_box/system/bin/commontools文件，内容：
+* 添加out/target/product/roc_rk3328_cc_box/system/bin/commontools文件，内容
 ```
 wfx@OptiPlex-9020:~/proj/roc-rk3328-cc$ cat out/target/product/roc_rk3328_cc_box/system/bin/commontools
 #! /system/bin/sh
@@ -70,12 +71,11 @@ sleep 1
 am start -n com.example.cc.apps/com.example.cc.apps.MainActivity
 while true; do  sleep 100; done
 ```
-* 修改system/core/rootdir/init.rc：
+* 修改system/core/rootdir/init.rc
 ```
 git diff system/core/rootdir/init.rc
 +service start_app /system/bin/start_app.sh
 +    class main
 +    user root
 +    group root
-+
 ```
