@@ -5,6 +5,7 @@ hello everyone, i'm ht
 # 2019 Mar
 - [安卓编译](#android_compile)
 - [安卓开发](#android_develop)
+- [数据库操作]（#sql_op）
 
 # android_compile
 
@@ -81,3 +82,166 @@ git diff system/core/rootdir/init.rc
 +    group root
 ```
 # android_develop
+```
+adb root
+adb connect 172.21.30.197
+adb install apk的路径 就可以直接安装成功
+adb uninstall 包名
+adb push  C:\\heting\\springboot\\.mvn\\wrapper\\maven-wrapper.jar /data
+adb pull /data/user/0/com.example.cc.alarm/databases/alarm.db C:\heting\software\adb
+
+adb shell
+pm install app-debug.apk(在安卓系统下执行)
+pm uninstall com.example.cc.alarm
+pm list package 列出当前设备上已经安装的所有包
+pm list package -3 获取安装的第三方库软件
+获取所有apk安装路径和对应的包名命令：pm list package -f
+获取包名对应的apk了路径命令：pm path 包名，直接返回包的路径
+清除apk关联数据命令：pm clear 包名
+pm dump com.example.cc.alarm |grep versionName 查看apk版本
+pm dump 包名 返回值里有一个stopped=true表示服务停止，stopped=false表示服务在运行
+pm install -r app-debug.apk 替换已经安装的apk
+
+交互界面：可以打开文件跳出安装界面问你是否安装
+Intent intent = new Intent(Intent.ACTION_VIEW);
+intent.setDataAndType(Uri.fromFile(new File("/data/app-debug.apk")),
+        "application/vnd.android.package-archive");
+//startActivity(intent);
+startActivity(Intent.createChooser(intent, "Apps"));
+```
+* 我们知道AOSP项目由不同的子项目组成,为了方便进行管理,Google采用Git对AOSP项目进行多仓库管理，repo就是这么一种工具,由一系列python脚本组成,通过调用Git命令实现对AOSP项目的管理
+编译安卓系统：https://www.linuxidc.com/Linux/2017-09/147107.htm
+https://blog.csdn.net/lyb2518/article/details/77072792（更详细）
+编译安卓系统花了2：45，两小时45分
+* 在安卓源码下重新打包apk包，java -Djava.library.path=/home/ht/aosp/prebuilts/sdk/tools/linux/lib64  -jar  signapk.jar platform.x509.pem platform.pk8 app-debug.apk  app-debugnew.apk
+
+* 重新挂载分区
+```
+mount -o rw,remount /system  重新mount/system为可读写
+```
+* 在apk安装时，系统默认会给每个app分配一个uid，在/data/system/packages.xml文件中可以查看到所有安装的app的uid。在默认情况下每个app有自己的uid，只能够访问自己的数据，如果多个app设置了相同的uid，他们就能运行在同一个进程中，就能够实现数据的共享。当程序想要获取系统权限时，将android:SharedUserId 属性设置为”android.uid.system"，可以让程序运行在系统进程中，能够实现系统时间的修改。 但是只是设置sharedUserId并不能够实现去获取系统权限，想要获取系统权限还必须要有相应的签名。
+android:sharedUserId="android.uid.system"添加在<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.cc.apps" >加系统权限
+要获得系统权限，在完成程序的编写后，在配置文件AndroidManifest.xml中加入android:sharedUserId="android.uid.system，如下文
+```
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.date"
+    android:versionCode="1"
+    android:versionName="1.0" 
+    android:sharedUserId="android.uid.system">
+```
+加入这句命令，告诉系统需要权限，但并没有给系统权限，下面两种是大家用到的比较多的办法：
+第一种：
+```
+需要在linux环境下完成，而且是编译android源码的环境下，修改Android.mk文件，加入LOCAL_CERTIFICATE := platform这一行，使用mm命令来编译，生成的apk就有修改系统时间的权限了（这个我没有操作）。
+```
+第二种
+```
+不需要在源码环境下，但还是要求你有android的源码，而且我第一次弄的时候还是跑到linux底下了。
+
+使用eclipse编译出apk文件。使用目标系统的platform密钥来重新给apk文件签名。首先找到密钥文件，在我
+
+android源码目录中的位置是"build/target/product/security"，
+
+下面的platform.pk8和platform.x509.pem两个文件。然后用Android提供的Signapk工具来签名，signapk的源代码是在
+
+"build/tools/signapk"下，
+
+编译后在out/host/linux-x86/framework下，用法为
+
+java -jar signapk.jar platform.x509.pem platform.pk8 input.apk output.apk"。
+sudo java -Djava.library.path=/home/ht/rk3328/prebuilts/sdk/tools/linux/lib64  -jar  signapk.jar platform.x509.pem platform.pk8 app-debug.apk  app-debugnew.apk
+这里注意一下，好多人都直接说编译，让小白很难受啊，我说详细点，就是在linux环境下，去到"build/target/product/security"，是一个.java文件，我用的javac编译通过，但也提示了一堆东西没有"javac SignApk.java"。我用mm来编译，死活不成功，提示/usr/bin/mm没有那个文件或目录。
+
+这里再说一下，因为这里是对apk进行操作的，所以不用IDE的debug来调试，如果没有提前在path里面设置环境变量的话，可以到android的sdk目录platform-tools里有adb，用cmd命令窗来定位，然后执行adb install  yourapkname.apk。如果不是第一次安装，建议把之前的卸载，再安装
+```
+* 设置adbd运行端口：setprop service.adb.tcp.port 5555 
+/sbin/adbd重新运行adbd
+* 交互式的安装apk
+```
+Intent intent = new Intent(Intent.ACTION_VIEW);
+intent.setDataAndType(Uri.fromFile(new File("/data/app-debug.apk")),
+        "application/vnd.android.package-archive");
+startActivity(intent);
+startActivity(Intent.createChooser(intent, "Apps"));
+```
+* 安卓下直接停止服务命令：stop alarm等,alarm是写在了init.rc文件
+```
+am start -n com.android.chrome/com.google.android.apps.chrome.Main启动chrome
+am start org.xbmc.kodi/org.xbmc.kodi.Main 启动kodi播放器
+am start -n com.android.chrome/com.google.android.apps.chrome.Main -d www.baidu.com起来打开百度
+```
+
+* 安卓tv和普通安卓
+```
+3328只有box的，另一种是 mid，3288,3399,3368都有mid
+mid一般用于平板。但像3288,3399,3368这些也要有SDK编译，SDK需要Licence，一般我们不提供固件。
+```
+* 移植IGSS到安卓系
+```
+1:修改目录/vbg/---->/data/vbg
+2:panic: sql: unknown driver "sqlite3" (forgotten import?),这个是因为sqlite3是cgo，需要CGO_ENABLED=1,打开此选项之后就会有一些动态库需要包含，所以-ldflags '-linkmode "external" -extldflags "-static"'编译成静态的。
+3:"/bin/sh"没有换成"/system/bin/sh"
+4:"python3和python2"没有,安装qpython在安卓系统上
+qpython3.2不支持requests包所以得安装https://github.com/qpython-android/qpy36/releases，3.6的qpython，接着跑gobox-tools，继续安装flask，flask_apscheduler
+python3 ./pip3 install flask_apscheduler
+pytz: timezone,需要/etc/localtime配置文件，但是unix.py系统文件里写的就是/etc/localtime但是安卓系统上文件没有，所以我修改了unix.py文件可以通过了
+接着是ping_job，会fork失败，/data/user/0/org.qpython.qpy3/files/lib/python36.zip/subprocess.py文件FileNotFoundError: [Errno 2] No such file or directory: '/bin/sh': '/bin/sh'出错，估计也得修改源码,修改了subprocess.py，可以了
+```
+* 编译安卓uboot,kernel,sdk：
+```
+repo init --repo-url ssh://git@www.rockchip.com.cn/repo/rk/tools/repo -u ssh://git@www.rockchip.com.cn/gerrit/rk/platform/manifest -b android-7.0 -m rk3328_box_nougat_release.xml
+中间碰到代码拉不下来，执行了.repo/repo/repo sync --force-sync
+https://blog.csdn.net/kc58236582/article/details/72468770安卓预编译服务器
+1：Communication error with Jack server (58), try 'jack-diagnose' or see Jack server log
+Android7.0 JACK编译器不支持多用户同时编译，其他用户在编译，端口被占用解决方法：
+如下：修改$HOME/.jack-settings和$HOME/.jack-server/config.properties中的端口号（比如都改为8096/8097），方可支持多用户同时编译。
+编译uboot和kernel要分别进入两个目录去编译
+uboot:make rk3328_box_defconfig make ARCHV=aarch64 -j12
+kernel:make ARCH=arm64 rockchip_smp_nougat_defconfig make ARCH=arm64 rk3328-box.img
+编译sdk：
+source javaenv.sh
+source build/envsetup.sh
+lunch
+make -j8
+编译ko:
+make ARCH=arm64 drivers/net/wireless/rockchip_wlan/rkwifi/bcmdhd/bcmdhd.ko
+将image都放进rockdev目录下
+./mkimage.sh
+rk固件:
+./FFTools/mkupdate/sd_mkupdate.sh update可以打包固件，最终生成的文件是 rockdev/Image-rk3328_firefly_box/update.img
+system/core/rootdir/init.box.rc下是init.rc文件
+```
+* 编译特定模块方法：
+```
+1、. build/envsetup.sh 
+2、mmm hardware/libhardware_legacy/power/ 
+
+或者 ： 
+
+1、. build/envsetup.sh 
+2、cd hardware/libhardware_legacy/power/ 
+3、mm 
+```
+
+* busybox wget http://tx.ustarcloud.com:20070/apps/version
+```
+tx.ustarcloud.com ip为：106.12.220.233
+```
+* 将制作的tf卡内容dd到image文件，然后在dd回其他tf卡
+```
+dd if=/dev/sdc of=/home/ht/image/image_16
+dd if=/home/ht/image/image_16 of=/dev/sdc(速度5M，6M多)
+sudo watch -n 5 pkill -USR1 ^dd查看dd 进度
+```
+# sql_op
+* 编写django代码有创建数据库到生成models.py文件步骤
+```
+1：在/home/ht/iot_cloud/scripts/database/cloud_db.sql文件中添加表，修改了数据库
+2： ./manage.py inspectdb --settings dc.settings.develop生成models.py，将刚才添加的表的对应model定义内容写到django对应app的models.py文件里去
+```
+* select count(*) from p_cloud_alm_info;
+* select count(*) from p_cloud_alm_info where (alm_id=205);
+* delete from p_cloud_alm_info where report_time >='2018-04-21' and report_time < '2018-05-1';
+* update p_dev_info set phy_state=0 where dev_id != 2004 and dev_id != 2020;
+* delete from p_sw_version where release_ver='1.0.6.0-GA';
