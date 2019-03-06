@@ -6,6 +6,11 @@ hello everyone, i'm ht
 - [安卓编译](#android_compile)
 - [安卓开发](#android_develop)
 - [数据库操作](#sql_op)
+- [ssh反向隧道](#ssh)
+- [git修改远端origin](#git_origin)
+- [docker编译](#docker_compile)
+- [gitlab-ci](#gitlab-ci)
+- [syslog安装](#syslog-ng)
 
 # android_compile
 
@@ -245,3 +250,61 @@ sudo watch -n 5 pkill -USR1 ^dd查看dd 进度
 * delete from p_cloud_alm_info where report_time >='2018-04-21' and report_time < '2018-05-1';
 * update p_dev_info set phy_state=0 where dev_id != 2004 and dev_id != 2020;
 * delete from p_sw_version where release_ver='1.0.6.0-GA';
+# ssh
+```
+ssh反向隧道同一局域网的特定端口：
+ssh -gNfL 9999:192.168.166.68:80 pi@127.0.0.1    //将同局域网内的192.168.166.68的80端口映射到本机9999端口
+ssh -NfR 6670:localhost:9999 ici@m.vegcloud.tech  //将本机的9999端口映射到公网的6670端口。
+-C：该参数将使ssh压缩所有通过Secure Shell客户端发送的数据，包括输入、输出、错误消息及转发数据。它使用gzip算法，压缩级别可通过设置配制文件中的参数Compressicn Level来指定。这对于缓慢的传输线路特别有用的。但对于传输速度已经很快的网络则显得没有必要。同样，你可以利用配制文件针对每台主机配置这个参数。 
+-f：该参数将ssh连接送入后台执行。这在验证已经完成且TCP/IP转发已经建立的情况下会生效。这对在远程主机上启动X程序显得十分重要。其后用户将被提示要求输入口令(提供的认证代理不运行)，然后将连接送往后台。 
+-g：该参数允许远程主机通过端口转发与主机端口相连，通常情况下仅允许本地主机这样做。 
+-N：不执行远程指令。 
+-R：远程转发 
+-L：本地转发
+如果出现ERR_UNSAFE_PORT，要么改变需要代理的端口，要么修改浏览器属性，起浏览器的时候添加参数--explicitly-allowed-ports=87,6666,556,6667，其中后面逗号隔开的是允许的端口
+```
+# git_origin
+```
+git remote rm origin
+git remote add origin http://192.168.100.235:9797/john/git_test.git
+```
+# docker_compile
+```
+docker编译记录：
+编译都是在docker提供的container里进行，并且docker server和docker cli分开变成了俩个projects
+分别为：
+https://github.com/docker/docker.git
+ https://github.com/docker/cli
+遇到部署说却libapparmor问题直接进编译环境的container，将环境里的libapparmor.so文件拷贝出来，放到运行编译出来的docker的宿主机上。
+编译cli是用make -f  dockerfile/Dockerfile.dev binary
+```
+# gitlab-ci
+* 安装gitlab
+* 安装gitlab-runner
+```
+Running with gitlab-ci-multi-runner dev (HEAD)
+  on gitlab runner for build server (2d60be39)
+Using Shell executor...
+Running on archiso...
+Fetching changes...
+HEAD is now at 70ebf78 Update build.py
+From http://172.21.148.250:10080/veg/vega_api_video
+   70ebf78..ba0be55  master     -> origin/master
+Checking out ba0be55f as master...
+Skipping Git submodules setup
+$ need_build_iot=`python build.py`
+$ echo $need_build_iot
+/home/admin/gitlab-runner/builds/2d60be39/0/veg/vega_api_video False
+$ if [ "$need_build_iot" = "True" ]; then /home/admin/veg_auto_build.sh -p vegavideo; fi
+Job succeeded
+gitlab ci gitlab已经自带，不用再安装，.gitlab-ci.yml就是由它解析
+gitlab runner需要自己安装到一台服务器上，它是脚本执行的载体，gitlab-ci根据gitlab-ci.yml文件解析出来的runner，分配到对应的runner服务器上去跑
+.gitlab-ci.yml文件是项目根目录的一个文件，ci在收到push操作之后会解析这个文件然后安排runner
+安装完git runner之后要向 gitlab ci注册我的runner，不然push事件来的时候不知道调用谁执行呢？
+runner就是跑gitlab-ci需要执行脚本，在安装了gitlab runner的机器上
+```
+# syslog_ng
+```
+syslog服务搭建在arch上：
+pacman -S syslog-ng
+```
