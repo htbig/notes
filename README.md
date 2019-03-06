@@ -5,7 +5,7 @@ hello everyone, i'm ht
 # 2019 Mar
 - [安卓编译](#android_compile)
 - [安卓开发](#android_develop)
-- [数据库操作]（#sql_op）
+- [数据库操作](#sql_op)
 
 # android_compile
 
