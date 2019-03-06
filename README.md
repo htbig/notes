@@ -3,10 +3,10 @@
 hello everyone, i'm ht
 
 # 2019 Mar
-- [安卓编译](#android compile)
-- [安卓开发](#android develop)
+- [安卓编译](#compile)
+- [安卓开发](#develop)
 
-# android compile
+# compile
 
 #### 第三方apk进系统
 * 在packages/apps目录下新建Prebuilt_apps目录，将需要安装的apk文件放到该目录，并且在该目录新建Android.mk文件，内容
@@ -80,4 +80,4 @@ git diff system/core/rootdir/init.rc
 +    user root
 +    group root
 ```
-# android develop
+# develop
