@@ -4,6 +4,7 @@ hello everyone, i'm ht
 
 # 2019 Mar
 - [安卓编译](#android compile)
+- [安卓开发](#android develop)
 
 # android compile
 
@@ -79,3 +80,4 @@ git diff system/core/rootdir/init.rc
 +    user root
 +    group root
 ```
+# android develop
