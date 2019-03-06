@@ -2,10 +2,10 @@
 
 hello everyone, i'm ht
 
-## 2019 Mar
+# 2019 Mar
 - [安卓编译](#android compile)
 
-## android compile
+# android compile
 
 #### 第三方apk进系统
 * 在packages/apps目录下新建Prebuilt_apps目录，将需要安装的apk文件放到该目录，并且在该目录新建Android.mk文件，内容：
