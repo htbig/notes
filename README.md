@@ -25,6 +25,10 @@ hello everyone, i'm ht
 - [测试网速](#测试网速)
 - [ubuntu服务](#ubuntu服务)
 - [ubuntu deb包制作](#deb包制作)
+- [性能监控](#性能监控)
+- [bash for循环](#bash_for)
+- [ERP系统](#ERP系统)
+- [html_upload](#html_upload)
 
 # android_compile
 
@@ -606,4 +610,411 @@ Description: A better WeChat on macOS and Linux. Built with Electron by Zhongyi 
 4：修改信息
 5：重新打包：cd ../
 dpkg -b dirname xxx_new.deb
+```
+# 性能监控
+* 使用telegraf influxdb kapacitor chronograf 监控性能：
+```
+1：安装这四个在同一台host，不同的也可以;
+2:创建influxdb的conf文件，在host的/etc/influxdb创建influxdb.conf文件，跑docker run -d influxdb然后将/etc/influxdb下的influxdb.conf拷贝到host机器;
+docker run -d --name influxdb --restart=always -v /etc/influxdb/:/etc/influxdb -v /var/lib/influxdb/:/var/lib/influxdb/ -p 8086:8086 influxdb
+3:将docker里的conf文件拷贝出来，在宿主机上创建，执行docker run -v /etc/telegraf/:/etc/telegraf/ di│telegraf
+8086端口influxdb占用
+8092/udp, 8125/udp, 8094/tcp telegraf占用
+遇到问题：influxdb会根据kapacitor的hostname:port来发送从telegraf发过来的包，但是我的kapacitor是跑在docker里面，hostname是随意的一个值，所以解决办法是docker run时指定容器hostname为宿主机ip，这样influxdb从搜集器telegraf搜集来的数据发送给kapacitor:
+kapacitor.conf内容：
+httppost = []
+hostname = "work"	
+data_dir = "/var/lib/kapacitor"
+skip-config-overrides = false
+default-retention-policy = ""
+
+[http]
+  bind-address = ":9092"
+  auth-enabled = false
+  log-enabled = true
+  write-tracing = false
+  pprof-enabled = false
+  https-enabled = false
+  https-certificate = "/etc/ssl/kapacitor.pem"
+  shutdown-timeout = "10s"
+  shared-secret = ""
+
+[replay]
+  dir = "/var/lib/kapacitor/replay"
+
+[storage]
+  boltdb = "/var/lib/kapacitor/kapacitor.db"
+
+[task]
+  dir = "/root/.kapacitor/tasks"
+  snapshot-interval = "1m0s"
+
+[[influxdb]]
+  enabled = true
+  name = "default"
+  default = false
+  urls = ["http://10.4.32.153:8086"]
+  username = ""
+  password = ""
+  ssl-ca = ""
+  ssl-cert = ""
+  ssl-key = ""
+  insecure-skip-verify = false
+  timeout = "0s"
+  disable-subscriptions = false
+  subscription-protocol = "http"
+  kapacitor-hostname = ""
+  http-port = 0
+  udp-bind = ""
+  udp-buffer = 1000
+  udp-read-buffer = 0
+  startup-timeout = "5m0s"
+  subscriptions-sync-interval = "1m0s"
+  [influxdb.excluded-subscriptions]
+    _kapacitor = ["autogen"]
+
+[logging]
+  file = "STDERR"
+  level = "INFO"
+
+[config-override]
+  enabled = true
+
+[collectd]
+  enabled = false
+  bind-address = ":25826"
+  database = "collectd"
+  retention-policy = ""
+  batch-size = 5000
+  batch-pending = 10
+  batch-timeout = "10s"
+  read-buffer = 0
+  typesdb = "/usr/share/collectd/types.db"
+
+[opentsdb]
+  enabled = false
+  bind-address = ":4242"
+  database = "opentsdb"
+  retention-policy = ""
+  consistency-level = "one"
+  tls-enabled = false
+  certificate = "/etc/ssl/influxdb.pem"
+  batch-size = 1000
+  batch-pending = 5
+  batch-timeout = "1s"
+  log-point-errors = true
+
+[alerta]
+  enabled = false
+  url = ""
+  insecure-skip-verify = false
+  token = ""
+  token-prefix = ""
+  environment = ""
+  origin = ""
+
+[hipchat]
+  enabled = false
+  url = ""
+  token = ""
+  room = ""
+  global = false
+  state-changes-only = false
+
+[opsgenie]
+  enabled = false
+  api-key = ""
+  url = "https://api.opsgenie.com/v1/json/alert"
+  recovery_url = "https://api.opsgenie.com/v1/json/alert/note"
+  global = false
+
+[pagerduty]
+  enabled = false
+  url = "https://events.pagerduty.com/generic/2010-04-15/create_event.json"
+  service-key = ""
+  global = false
+
+[pushover]
+  enabled = false
+  token = ""
+  user-key = ""
+  url = "https://api.pushover.net/1/messages.json"
+
+[smtp]
+  enabled = false
+  host = "localhost"
+  port = 25
+  username = ""
+  password = ""
+  no-verify = false
+  global = false
+  state-changes-only = false
+  from = ""
+  idle-timeout = "30s"
+
+[snmptrap]
+  enabled = false
+  addr = "localhost:162"
+  community = "kapacitor"
+  retries = 1
+
+[sensu]
+  enabled = false
+  addr = ""
+  source = "Kapacitor"
+
+[slack]
+  enabled = false
+  url = ""
+  channel = ""
+  username = "kapacitor"
+  icon-emoji = ""
+  global = false
+  state-changes-only = false
+  ssl-ca = ""
+  ssl-cert = ""
+  ssl-key = ""
+  insecure-skip-verify = false
+
+[talk]
+  enabled = false
+  url = ""
+  author_name = ""
+
+[telegram]
+  enabled = false
+  url = "https://api.telegram.org/bot"
+  token = ""
+  chat-id = ""
+  parse-mode = ""
+  disable-web-page-preview = false
+  disable-notification = false
+  global = false
+  state-changes-only = false
+
+[victorops]
+  enabled = false
+  api-key = ""
+  routing-key = ""
+  url = "https://alert.victorops.com/integrations/generic/20131114/alert"
+  global = false
+
+[reporting]
+  enabled = true
+  url = "https://usage.influxdata.com"
+
+[stats]
+  enabled = true
+  stats-interval = "10s"
+  database = "_kapacitor"
+  retention-policy = "autogen"
+  timing-sample-rate = 0.1
+  timing-movavg-size = 1000
+
+[udf]
+
+[deadman]
+  interval = "10s"
+  threshold = 0.0
+  id = "{{ .Group }}:NODE_NAME for task '{{ .TaskName }}'"
+  message = "{{ .ID }} is {{ if eq .Level \"OK\" }}alive{{ else }}dead{{ end }}: {{ index .Fields \"emitted\" | printf \"%0.3f\" }} points/INTERVAL."
+  global = false
+
+docker run -v /etc/kapacitor/:/etc/kapacitor/ -v /root:/root --hostname 172.21.78.51 -p 9092:9092 kapacitor
+4：编写task出发trigger：
+编写.tick文件
+执行kapacitor 去注册tasks
+docker exec c3b9ca9f7c27 kapacitor define cpu_alert     -type stream     -tick /root/cpu_alert.tick     -dbrp kapacitor_example.autogen
+docker exec c3b9ca9f7c27 kapacitor record stream -task cpu_alert -duration 20s
+docker exec c3b9ca9f7c27 kapacitor list recordings eb56d160-8d9f-4528-af80-2294a1a9f026
+ docker exec 7c61c580114f kapacitor replay -recording eb56d160-8d9f-4528-af80-2294a1a9f026 -task cpu_alert
+docker cp 7c61c580114f:/tmp/alerts.log ./
+可以看到alerts.log里一堆log
+修改了.tick文件就需要重新执行：
+# edit threshold in cpu_alert.tick and redefine the task.
+kapacitor define cpu_alert -tick cpu_alert.tick
+kapacitor replay -recording $rid -task cpu_alert
+都ok了之后，我们就来enable tasks
+kapacitor enable cpu_alert
+
+kapacitor show cpu_alert
+ddd
+启动chronograf:
+docker run -d --name chronograf -v /var/lib/chronograf:/var/lib/chronograf --restart=always -p 8888:8888 -i chronograf
+
+docker run -d --restart=always --name kapacitor -v /etc/kapacitor/:/etc/kapacitor/ -v /var/lib/kapacitor:/var/lib/kapacitor --hostname 192.168.66.102 -p 9092:9092 kapacitor
+docker run -p 8887:8888 chronograf
+安装pacman -S docker-compose
+编写docker-compose.yml文件：
+version: '2'
+services:
+   telegraf:
+      image: "telegraf"
+      ports:
+        - "8092:8092/udp"
+        - "8125:8125/udp"
+        - "8094:8094"
+      volumes:
+        - /home/ht/monitor-compose/root/etc/telegraf:/etc/telegraf
+   influxdb:
+      image: "influxdb"
+      ports:
+        - "8086:8086"
+      volumes:
+        - /home/ht/monitor-compose/root/etc/influxdb:/etc/influxdb
+        - /home/ht/monitor-compose/root/var/lib/influxdb:/var/lib/influxdb
+   kapacitor:
+      image: "kapacitor"
+      ports:
+        - "9092:9092"
+      volumes:
+        - /home/ht/monitor-compose/root/etc/kapacitor:/etc/kapacitor
+        - /home/ht/monitor-compose/root:/root
+        - /home/ht/monitor-compose/root/var/lib/kapacitor:/var/lib/kapacitor
+      environment:
+        HOSTNAME: "172.21.78.50"
+   chronograf:
+      image: "chronograf"
+      ports:
+        - "8888:8888"
+配置chronograf：
+打开部署了服务的机器：
+http://172.21.78.50
+部署不同机器上telegraf, influxdb, kapacitor, chronograf:
+1:分别pacman -U telegraf-1.0.0-1-x86_64.pkg.tar.xz在不同虚拟机上。
+2：修改/etc/telegraf/telegraf.conf文件：
+总结：telegraf将设备侧数据收集过来发送到influxdb上，influxdb数据可以在chronograf上渲染，Query data from InfluxDB on a schedule, and receive data via the line protocol and any other method InfluxDB supports.Store transformed data back in InfluxDB.
+Chronograf offers a UI for Kapacitor, InfluxData’s data processing framework for creating alerts, running ETL jobs, and detecting anomalies in your data
+influxdb是非常优秀的时序数据库，但是只有单机版本是免费，
+我们云端的数据保存在postgresql里，但是设备的实时数据保存在influxdb实时数据库上。
+telegraf将设备数据
+[[inputs.exec]]
+commands = ["/bin/iot -g devtype SL_SC_BE"]
+timeout = "5s"
+data_format = "json"
+name_suffix = "iot_info"
+
+关于内存泄露问题，结论是goroutine未退出导致。
+2分钟泄露0.88M, 0.79M
+go program memory leaks check:
+利用go自带的net/http/pprof/
+1：reflect的 MapIndex内存泄露
+2：json.Unmarshal内存问题
+3：json.Marshal内存泄露
+4：ioutil.WriteFile内存泄露
+5：json.NewEncoder(ctx.Writer).Encode(data)内存泄露
+6：CamInfo map[string]CameraInfo赋值内存泄露
+7：RunScript不停执行execCommand("/bin/sh", "-c", cmd).CombinedOutput()内存泄露
+8：PatchSnap内存泄露
+9：reflect.DeepEqual(v1_val.MapIndex(key).Interface(), v2_val.MapIndex(key).Interface())内存泄露
+10：fmt.Sprintf("Camera%d", camera[key_camera].DevId)内存泄露
+11：SnapCameraImage里的ioutil.ReadAll内存泄露
+12：SnapCameraLoop内存泄露
+13：output, err := ioutil.ReadFile(filename)内存泄露
+14：snapServer.ReadFromUDP(buffer)内存泄露
+15：resolution = []string{mainimsize, subimsize}内存泄露
+```
+
+# bash_for
+```
+for ((i=0; i<1000; ++i))  ; do    curl -X GET   http://172.21.78.50:8082/monitor   -H 'authorization: Basic aHQ6MQ=='   -H 'cache-control: no-cache'   -H 'content-type: application/json' ; done
+```
+# ERP系统
+```
+ERP系统和电子标签对接程序编写：
+curl -X POST \
+  http://218.108.7.116:8001/api/v1/post_common \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: application/json' \
+  -H 'postman-token: 431adb81-557c-5664-9470-f95d883dbb51' \
+  -d '{
+    "x-access-token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiSFowODgwOCJ9.hpuBiupMSHaEu9LKOOms8PknZ1cXqxi1uBVoMMMiAIQ",
+    "command": "query_all_commodity"
+}‘
+'得到ERP系统所有商品信息：
+{
+    "command": "query_all_commodity",
+    "output": [
+        {
+            "barcode": "6928804011142",
+            "name": "可口可乐",
+            "price": "2.50"
+        },
+        {
+            "barcode": "6953392501010",
+            "name": "可口可乐",
+            "price": "2.50"
+        }
+    ],
+    "nums": "349",
+    "result": "success",
+    "message": "success"
+}
+将这些json数据变为字典，然后组装为列表（二维数组），在json发送到els接口添加数据到els的数据库。
+注意事项：
+1：esl（Electronic Shelf Label，简称ESL，电子货架标签的英文简称）需要知道所有商品信息，否则数据不符合要求，无法操作。
+2：我们ERP系统获取到的商品信息只有3个属性
+
+
+esl管理店内商品通过vpn实现在同一个域网内，打开vpn在10号设备：
+echo net.ipv4.ip_forward=1>/etc/sysctl.conf
+iptables -t nat -I  POSTROUTING 1 -s 192.168.3.0/24 -o Management1 -j MASQUERADE
+docker run --privileged -d --name="anycntvpn" --net="host" -v /dev/net/:/dev/net/ -v /vbg/root/anycntvpn/etc/ocserv/:/etc/ocserv/ anycntvpn
+这样veg 上vpn服务就可以用了，ip也可以转发，装有esl server的机器就可以链接到vpn上跟网关基站交互，但是这一步只是esl server可以ping通网关，网关基站还不能发数据到esl server，需要在openwrt上添加一条路由，目的地是192.168.3.0的都转发到192.168.166.100上，让他到了host上再去转发出去到esl server
+显示：
+iptables -t nat -vxnL POSTROUTING
+删除：
+iptables -t nat -D POSTROUTING 1
+超市10号设备：172.21.20.162
+在openwrt上配一条目的地址192.168.3.0的路由，这样基站网关才能知道如何到els server：
+root@OpenWrt:~# route
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+default         172.21.76.1     0.0.0.0         UG    0      0        0 eth1
+172.21.76.0     *               255.255.252.0   U     0      0        0 eth1
+172.21.76.1     *               255.255.255.255 UH    0      0        0 eth1
+192.168.3.0     vbg-m8105.lan   255.255.255.0   UG    3      0        0 br-lan
+192.168.166.0   *               255.255.255.0   U     0      0        0 br-lan
+这样基站过来的包就可以发到els server上了
+在Windows机器上装python：
+并且安装python的requests包，连接到vpn执行python脚本，ok，都可以同步上
+
+systemd[1]: musicserverd.service: Main process exited, code=exited, status=52
+ vega-shell -c HISTFILE=;SA_OS_TYPE="Linux" REAL_OS_NAME=`uname` if [ "$REAL_OS_NAME" != "$SA_OS_TYPE" ] ; then ech
+tcpdump -i vpns0 icmp
+查看为什么vpn不通
+docker-proxy
+docker 的端口转发工具. 实现容器与主机的端口映射
+mErp:
+curl -X POST \
+  http://172.21.30.148:8001/api/v1/post_common/ \
+  -H 'authorization: Basic YWRtaW46TmV0UmluZzc4OTAw' \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: application/json' \
+  -H 'postman-token: e29af395-0582-84e8-eb93-525c3b5c045e' \
+  -d '{
+  "command": "query_dev_sku",
+  "dev_id": 2008
+}'
+
+rrpc:
+curl -X POST \
+  http://10.4.32.114:8085/rrpc \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: application/json' \
+  -H 'postman-token: 719eb4b6-9778-d0c9-a342-338471259fbc' \
+  -d '{
+    "devname": "02c000812013583d",
+    "req": {
+        "A": 102,
+        "P": {
+        }
+
+    }
+}
+```
+# html_upload
+```
+上传文件multipart/form-data
+http上传文件到系统内存，大于默认大小。会存在临时文件里
 ```
