@@ -32,7 +32,7 @@ oneshot
 这样系统起来就会执行run_apk.sh并且安装第三方apk了
 
 #### 让服务上电起来自动开启
-* 添加start_app相关的东西用来上电自动启动服务，在device/rockchip/common/sepolicy/file_contexts加入：
+* 添加start_app相关的东西用来上电自动启动服务，在device/rockchip/common/sepolicy/file_contexts加入
 ```
 /system/bin/commontools            u:object_r:commontools_exec:s0
 wfx@OptiPlex-9020:~/proj/roc-rk3328-cc$ git diff device/rockchip/common/sepolicy/file_contexts
