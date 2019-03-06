@@ -21,6 +21,10 @@ hello everyone, i'm ht
 - [路由添加](#路由添加)
 - [systemd-timesyncd](#systemd-timesyncd)
 - [考勤机](#考勤机)
+- [go语言](#go语言)
+- [测试网速](#测试网速)
+- [ubuntu服务](#ubuntu服务)
+- [ubuntu deb包制作](#deb包制作)
 
 # android_compile
 
@@ -261,6 +265,62 @@ sudo watch -n 5 pkill -USR1 ^dd查看dd 进度
 * delete from p_cloud_alm_info where report_time >='2018-04-21' and report_time < '2018-05-1';
 * update p_dev_info set phy_state=0 where dev_id != 2004 and dev_id != 2020;
 * delete from p_sw_version where release_ver='1.0.6.0-GA';
+* postgresql:
+```
+1:initdb -D /home/ht/opt/postgresql/data/
+[ht@work ~]$ initdb -D ./opt/postgresql/data
+The files belonging to this database system will be owned by user "ht".
+This user must also own the server process.
+
+The database cluster will be initialized with locale "C".
+The default database encoding has accordingly been set to "SQL_ASCII".
+The default text search configuration will be set to "english".
+
+Data page checksums are disabled.
+
+creating directory ./opt/postgresql/data ... ok
+creating subdirectories ... ok
+selecting default max_connections ... 100
+selecting default shared_buffers ... 128MB
+selecting dynamic shared memory implementation ... posix
+creating configuration files ... ok
+running bootstrap script ... ok
+performing post-bootstrap initialization ... ok
+syncing data to disk ... ok
+
+WARNING: enabling "trust" authentication for local connections
+You can change this by editing pg_hba.conf or using the option -A, or
+--auth-local and --auth-host, the next time you run initdb.
+
+Success. You can now start the database server using:
+
+    pg_ctl -D ./opt/postgresql/data -l logfile start
+
+2:pg_ctl -D /home/ht/opt/postgresql/data/ -l logfile start
+这个时候ps auxf
+ht       11231  0.1  0.1 167368 15984 pts/0    S    18:15   0:00 /usr/local/pgsql/bin/postgres -D /home/ht/opt
+ht       11233  0.0  0.0 167368  2616 ?        Ss   18:15   0:00  \_ postgres: checkpointer process   
+ht       11234  0.0  0.0 167368  2616 ?        Ss   18:15   0:00  \_ postgres: writer process   
+ht       11235  0.0  0.0 167368  2616 ?        Ss   18:15   0:00  \_ postgres: wal writer process   
+ht       11236  0.0  0.0 167676  3796 ?        Ss   18:15   0:00  \_ postgres: autovacuum launcher process   
+ht       11237  0.0  0.0  22384  2004 ?        Ss   18:15   0:00  \_ postgres: stats collector process
+[admin@work ~]$ psql -U admin postgres
+psql (9.6.5)
+Type "help" for help.
+
+postgres=# help
+You are using psql, the command-line interface to PostgreSQL.
+Type:  \copyright for distribution terms
+       \h for help with SQL commands
+       \? for help with psql commands
+       \g or terminate with semicolon to execute query
+       \q to quit
+
+createdb -U admin UTCloudApi_develop创建数据库
+psql -U admin UTCloudApi_develop < db/UTCloudApi_develop.sql导入数据库
+dropdb UTCloudApi_develop删掉DB
+psql -h 10.4.32.180 -U admin -d store_db
+```
 # ssh
 ```
 ssh反向隧道同一局域网的特定端口：
@@ -447,5 +507,103 @@ GetACFun参数返回值为1，文档说15是有门禁？
 ```
 * 考勤成功是否含有头像？
 ```
-只有在有录入该人脸的设备上有人脸
+它工作原理是：
+员工在机器上录入人脸的最近的图片作为显示在考勤校验时左边的显示，所以在没有录入人脸的机器上是不会显示的，然后从其他机器同步过来的人脸数据只是作为校验手段，而不是左边的显示。
+```
+# go语言
+* goconvey golang自动测试框架：go get github.com/smartystreets/goconvey
+* go语法
+```
+import包下划线_表示将导入的包init函数执行一遍
+import .表示引入的该包可以不用带包前缀，不建议用这种方式，
+import f "fmt"这个f就是别名操作
+```
+* go map
+```
+go语言map结构存储情况：
+其中0xc420074120是map地址，格式是下方count=2的顺序，其中0xc420074130的地址开始的8个字节为buckets地址，打印出来0xc42007c000，结构是tophash 的结构。map的unmasel会将弄一个空的map,buckets，然后将key-value一个一个拷贝过去，
+(gdb) x/20x 0xc420074120
+0xc420074120:   0x00000002      0x00000000      0x00000000      0x3c60991d
+0xc420074130:   0x2007c000      0x000000c4      0x00000000      0x00000000
+0xc420074140:   0x00000000      0x00000000      0x00000000      0x00000000
+0xc420074150:   0x00000000      0x00000000      0x00000000      0x00000000
+0xc420074160:   0x00000000      0x00000000      0x00000000      0x00000000
+
+(gdb) x/20x 0xc42007c000
+0xc42007c000:   0x00005c38      0x00000000      0x004e258d      0x00000000
+0xc42007c010:   0x00000001      0x00000000      0x004e25fe      0x00000000
+0xc42007c020:   0x00000002      0x00000000      0x00000000      0x00000000
+0xc42007c030:   0x00000000      0x00000000      0x00000000      0x00000000
+0xc42007c040:   0x00000000      0x00000000      0x00000000      0x00000000
+
+count = 2, flags = 0 '\000', B = 0 '\000', noverflow = 0, hash0 = 1012963613, buckets = 0xc42007c000,
+  oldbuckets = 0x0, nevacuate = 0, extra = 0x0
+
+{tophash = "8\\\000\000\000\000\000", keys = {0x4e258d "h", 0x4e25fe "ee", 0x0 "", 0x0 "", 0x0 "",
+    0x0 "", 0x0 "", 0x0 ""}, values = {{test = 0x4e2632 "123", Name = 0x0 "", Order = 0x0 ""}, {
+      test = 0x4e2632 "123", Name = 0x0 "", Order = 0x0 ""}, {test = 0x0 "", Name = 0x0 "", Order = 0x0 ""},
+    {test = 0x0 "", Name = 0x0 "", Order = 0x0 ""}, {test = 0x0 "", Name = 0x0 "", Order = 0x0 ""}, {
+      test = 0x0 "", Name = 0x0 "", Order = 0x0 ""}, {test = 0x0 "", Name = 0x0 "", Order = 0x0 ""}, {
+      test = 0x0 "", Name = 0x0 "", Order = 0x0 ""}}, overflow = 0x0}
+```
+# 测试网速
+```
+测速命令：
+curl -w %{time_namelookup}::%{time_connect}::%{time_starttransfer}::%{time_total}::%{speed_download}"\n" -sX POST   http://us.ustar-ai.com:8500/api/get_dev_info   -H 'Authorization: Basic YXBpOlkycGpjMnhvY0N4b2MyMTVaMk56'   -H 'Cache-Control: no-cache'   -H 'Content-Type: application/json'   -H 'Postman-Token: 36f1138d-40c2-1a97-3879-0b7a51dc0335'   -d '{"devname":"7753d4167c245f42"}'
+```
+# ubuntu服务
+```
+1：ubuntu下启动与关闭服务的脚本存放与/etc/rc[?].d目录下
+2：如果打开/etc/rc[?].d目录，会发现这些目录下的文件都是形如Snnxxxx或Knnxxxx的符号链接，而且都是指向/etc/init.d
+3：其中链接文件中以S开头的表示在调用/etc/init.d目录中对应脚本的时候会传递一个start参数，也就是启动对应服务，而以K开头的则是传递一个stop参数，由此关闭此服务，此处的K表示kill
+4：S和K后面的nn是一个数字，表示本脚本被执行的先后顺序，小号在前大号在后，这样以解决不同服务之间可能存在的先后依赖关系
+5：另外，除了/etc/rc[0~6].d文件外，还有一个/etc/rcS.d目录，这个目录下的服务脚本与/etc/rc[0~6].d格式类似，也为指向/etc/init.d中的脚本的链接，但是会在/etc/rc[0~6].d中的脚本执行前首先被执行
+根据上面的介绍，如何将一个软件安装为服务也就比较清楚了，那就是在/etc/init.d添加一个服务的启动脚本，然后在需要启动服务的对应级别的/etc/rc[0~6].d中按照文件名格式添加一个指向/etc/init.d中脚本的符号链接
+以apache2为例，默认情况下，apache2编译安装在/usr/local/apache2，apache2的服务器启动脚本是/usr /local/apache2/bin/apachectl，那么安装服务就是要把此apachectl拷贝到需要启动apache2服务器的运行级别对应的/etc/rc[?].d目录下，一半来说ubuntu是运行在级别2下，所以也就是拷到/etc/rc2.d下，命令如下：
+sudo cp /usr/local/apache2/bin/apachectl /etc/init.d/httpd
+在这里，我们把拷贝的脚本文件名改为惯用的httpd，那么在系统服务中apache2的名称也就是httpd。
+手动添加服务的话，就是要在/etc/rc2.d里为httpd作一个形如Snnxxxx的链接。假定启动顺序我们定为80，那么就是要建立一个指向/etc/init.d/httpd的链接/etc/rc2.d/S80httpd，命令如下：
+sudo ln -s /etc/init.d/httpd /etc/rc2.d/S80httpd
+然后用sysv-rc-conf或者chkconfig –list检查一下就能看到已经在运行级别2下建立的名为httpd的服务，重启后，系统会自动启动apache2。
+现在要手动启动、关闭或重启httpd服务器可以使用service命令+服务名+参数的形式，如下三句分别是启动、关闭和重启apache2服务器的命令：
+service httpd start
+service httpd stop
+service httpd restart
+要安装服务除了以上手动作链接外，还可以使用一些工具软件来实现，比如常用的有update-rc.d、chkconfig和sysv-rc- conf等
+```
+# deb包制作
+* dpkg-deb命令
+```
+1：创建包的工作目录：test
+2：在test目录添加DEBIAN目录，存放控制信息，文件名字叫control，内容为：
+Package: electronic-wechat
+Version: 1.4.0-2016.08.24
+Section: BioInfoServ
+Priority: optional
+Depends:
+Suggests:
+Architecture: i386
+Installed-Size: 4096
+Maintainer: gatieme
+Provides: bioinfoserv-arb
+Description: A better WeChat on macOS and Linux. Built with Electron by Zhongyi Tong
+其中Architecture说明此包在什么cpu下安装，是一个判断条件
+3：在test下创建usr/bin目录，存放我的二进制文件main，这个目录结构安装deb包的时候会安装到根目录的/usr/bin下
+4：回到test上一级目录，利用dpkg-deb -b test test.deb生成test.deb包
+5：为了测试test.deb包，可以dpkg -i test.deb就可以将main拷贝到/usr/bin目录下，bash下执行main就可以输出hello world了，包制作成功。
+```
+* checkinstall制作deb包
+```
+1:git clone http://heting@172.21.148.250:10080/veg/vega.git
+2:make && make install
+3: checkinstall -D --pkgname=vega --pkgversion=2017-10-31 --install=no  --pkgsource=../../vega制作出包。
+```
+* 修改已经打包成deb的包
+```
+1：dpkg -X xxx.deb test #  解包安装内容
+2：cd test
+3:dpkg -e ../xxx.deb #  解包控制信息
+4：修改信息
+5：重新打包：cd ../
+dpkg -b dirname xxx_new.deb
 ```
