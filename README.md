@@ -28,3 +28,52 @@ class main
 oneshot
 ```
 这样系统起来就会执行run_apk.sh并且安装第三方apk了
+
+#### 让服务上电起来自动开启
+* 添加start_app相关的东西用来上电自动启动服务，在device/rockchip/common/sepolicy/file_contexts加入：
+```
+/system/bin/commontools            u:object_r:commontools_exec:s0
+wfx@OptiPlex-9020:~/proj/roc-rk3328-cc$ git diff device/rockchip/common/sepolicy/file_contexts
+diff --git a/device/rockchip/common/sepolicy/file_contexts b/device/rockchip/common/sepolicy/file_contexts
+index a2834af..b078a7b 100755
+--- a/device/rockchip/common/sepolicy/file_contexts
++++ b/device/rockchip/common/sepolicy/file_contexts
+@@ -138,6 +138,7 @@
+ /data/misc/ppp(/.*)?             u:object_r:pppoe_data_file:s0
+
+ /system/bin/wfd                  u:object_r:wfd_exec:s0
++/system/bin/commontools            u:object_r:commontools_exec:s0
+
+ /dev/vendor_storage              u:object_r:storage_device:s0
+```
+* 添加device/rockchip/common/sepolicy/commontools.te文件，其内容：
+```
+wfx@OptiPlex-9020:~/proj/roc-rk3328-cc$ cat device/rockchip/common/sepolicy/commontools.te
+type commontools, domain;
+type commontools_exec, exec_type, file_type;
+init_daemon_domain(commontools)
+```
+* 添加out/target/product/roc_rk3328_cc_box/system/bin/commontools文件，内容：
+```
+wfx@OptiPlex-9020:~/proj/roc-rk3328-cc$ cat out/target/product/roc_rk3328_cc_box/system/bin/commontools
+#! /system/bin/sh
+sleep 70
+/system/bin/apps &
+am start -n com.example.hz08692.aliiotkit/com.example.hz08692.aliiotkit.MainActivity
+sleep 1
+am start -n com.example.cc.door/com.example.cc.door.MainActivity
+sleep 1
+am start -n com.example.fjl.rfidservice/com.example.fjl.rfidservice.MainActivity
+sleep 1
+am start -n com.example.cc.apps/com.example.cc.apps.MainActivity
+while true; do  sleep 100; done
+```
+* 修改system/core/rootdir/init.rc：
+```
+git diff system/core/rootdir/init.rc
++service start_app /system/bin/start_app.sh
++    class main
++    user root
++    group root
++
+```
