@@ -11,6 +11,7 @@ hello everyone, i'm ht
 - [docker编译](#docker_compile)
 - [gitlab-ci](#gitlab-ci)
 - [syslog安装](#syslog-ng)
+- [集群分布式](# 集群分布式)
 
 # android_compile
 
@@ -303,8 +304,14 @@ gitlab runner需要自己安装到一台服务器上，它是脚本执行的载�
 安装完git runner之后要向 gitlab ci注册我的runner，不然push事件来的时候不知道调用谁执行呢？
 runner就是跑gitlab-ci需要执行脚本，在安装了gitlab runner的机器上
 ```
-# syslog_ng
+# syslog-ng
 ```
 syslog服务搭建在arch上：
 pacman -S syslog-ng
+```
+# 集群分布式
+```
+集群分布式
+首先我们先了解一下分布式和集群的由来。在开始的时候，网站都是一个简单的架构，例如LAMP的架构，就在一台服务器上部署了各种应用程序，访问的人少，服务器能轻松应对。当请求量增大的时候，服务器的资源已经扛不住这种压力了，从而将相关的应用放在不同的服务器上，提供更好的性能，当请求量进一步增大的时候，应用jboss和mysql可能都不能抗住这种请求压力了，从而也就引出了集群的由来
+
 ```
