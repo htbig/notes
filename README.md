@@ -29,6 +29,7 @@ hello everyone, i'm ht
 - [bash for循环](#bash_for)
 - [ERP系统](#ERP系统)
 - [html_upload](#html_upload)
+- [安卓签名](#安卓签名)
 
 # android_compile
 
@@ -1018,3 +1019,20 @@ curl -X POST \
 上传文件multipart/form-data
 http上传文件到系统内存，大于默认大小。会存在临时文件里
 ```
+# 安卓签名
+* 判断apk是否有签名
+```
+jarsigner -verify door-unsigned.apk
+
+jar 已验证。
+说明有签名
+-verbose -certs加上可以查看具体签名情况
+生成签名文件:
+keytool -genkey -alias ustar-ai.keystore -keyalg RSA -validity 2000 -keystore newandroid.keystore
+keytool -importkeystore -srckeystore newandroid.keystore -destkeystore newandroid.keystore -deststoretype pkcs12
+keytool -list -v -keystore newandroid.keystore查看签名信息
+jarsigner -verbose -keystore ./newandroid.keystore  -signedjar app-release_mysigned.apk door-unsigned.apk ustar-ai.keystore(别名)
+
+```
+
+echo 'export PATH=~/tools:$PATH' >> ~/.bashrc
