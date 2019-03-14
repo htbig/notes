@@ -30,6 +30,7 @@ hello everyone, i'm ht
 - [ERP系统](#ERP系统)
 - [html_upload](#html_upload)
 - [安卓签名](#安卓签名)
+- [安卓版本发布](#安卓版本发布)
 
 # android_compile
 
@@ -1036,3 +1037,12 @@ jarsigner -verbose -keystore ./newandroid.keystore  -signedjar app-release_mysig
 ```
 
 echo 'export PATH=~/tools:$PATH' >> ~/.bashrc
+
+# 安卓版本发布
+```
+我们一般在发布app之前，都会设置版本号。versionCode和versionName。简单解释一下：
+
+
+android:versionCode:主要是用于版本升级所用，是INT类型的，第一个版本定义为1，以后递增，这样只要判断该值就能确定是否需要升级，该值不显示给用户。
+android:versionName:这个是我们常说明的版本号，由三部分组成<major>.<minor>.<point>,该值是个字符串，可以显示给用户。
+```
