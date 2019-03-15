@@ -31,7 +31,7 @@ hello everyone, i'm ht
 - [html_upload](#html_upload)
 - [安卓签名](#安卓签名)
 - [安卓版本发布](#安卓版本发布)
-
+- [字符串替换](#字符串替换)
 # android_compile
 
 #### 第三方apk进系统
@@ -1045,4 +1045,8 @@ echo 'export PATH=~/tools:$PATH' >> ~/.bashrc
 
 android:versionCode:主要是用于版本升级所用，是INT类型的，第一个版本定义为1，以后递增，这样只要判断该值就能确定是否需要升级，该值不显示给用户。
 android:versionName:这个是我们常说明的版本号，由三部分组成<major>.<minor>.<point>,该值是个字符串，可以显示给用户。
+```
+# 字符串
+```
+sed -i "s/zhangsan/lisi/g" `grep zhangsan -rl /modules`
 ```
