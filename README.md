@@ -5,6 +5,9 @@ hello everyone, i'm ht
 # 2019 Mar
 - [安卓编译](#android_compile)
 - [安卓开发](#android_develop)
+- [安卓签名](#安卓签名)
+- [安卓版本发布](#安卓版本发布)
+- [安卓权限](#安卓权限)
 - [数据库操作](#sql_op)
 - [ssh反向隧道](#ssh)
 - [git修改远端origin](#git_origin)
@@ -29,8 +32,6 @@ hello everyone, i'm ht
 - [bash for循环](#bash_for)
 - [ERP系统](#ERP系统)
 - [html_upload](#html_upload)
-- [安卓签名](#安卓签名)
-- [安卓版本发布](#安卓版本发布)
 - [字符串替换](#字符串替换)
 # android_compile
 
@@ -1050,3 +1051,6 @@ android:versionName:这个是我们常说明的版本号，由三部分组成<ma
 ```
 sed -i "s/zhangsan/lisi/g" `grep zhangsan -rl /modules`
 ```
+
+# 安卓权限
+* 在init.rc中添加上电起来自动执行脚本，脚本里对/system目录的操作是没有权限的，对/data操作可以
