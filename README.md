@@ -251,9 +251,9 @@ system/core/rootdir/init.box.rc下是init.rc文件
 3、mm 
 ```
 
-* busybox wget http://tx.ustarcloud.com:20070/apps/version
+* busybox wget http://xxx:port/apps/version
 ```
-tx.ustarcloud.com ip为：106.12.220.233
+
 ```
 * 将制作的tf卡内容dd到image文件，然后在dd回其他tf卡
 ```
