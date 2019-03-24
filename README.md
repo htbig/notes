@@ -251,9 +251,9 @@ system/core/rootdir/init.box.rc下是init.rc文件
 3、mm 
 ```
 
-* busybox wget http://tx.ustarcloud.com:20070/apps/version
+* busybox wget http://xxx:20070/apps/version
 ```
-tx.ustarcloud.com ip为：106.12.220.233
+
 ```
 * 将制作的tf卡内容dd到image文件，然后在dd回其他tf卡
 ```
@@ -556,7 +556,7 @@ count = 2, flags = 0 '\000', B = 0 '\000', noverflow = 0, hash0 = 1012963613, bu
 # 测试网速
 ```
 测速命令：
-curl -w %{time_namelookup}::%{time_connect}::%{time_starttransfer}::%{time_total}::%{speed_download}"\n" -sX POST   http://us.ustar-ai.com:8500/api/get_dev_info   -H 'Authorization: Basic YXBpOlkycGpjMnhvY0N4b2MyMTVaMk56'   -H 'Cache-Control: no-cache'   -H 'Content-Type: application/json'   -H 'Postman-Token: 36f1138d-40c2-1a97-3879-0b7a51dc0335'   -d '{"devname":"7753d4167c245f42"}'
+curl -w %{time_namelookup}::%{time_connect}::%{time_starttransfer}::%{time_total}::%{speed_download}"\n" -sX POST   http://ip:port/api/get_dev_info   -H 'Authorization: Basic '   -H 'Cache-Control: no-cache'   -H 'Content-Type: application/json'   -H 'Postman-Token: 36f1138d-40c2-1a97-3879-0b7a51dc0335'   -d '{"devname":"xxx"}'
 ```
 # ubuntu服务
 ```
