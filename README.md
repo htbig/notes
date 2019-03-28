@@ -33,6 +33,7 @@ hello everyone, i'm ht
 - [ERP系统](#ERP系统)
 - [html_upload](#html_upload)
 - [字符串替换](#字符串替换)
+- [查询文件夹大小] (#文件大小命令)
 # android_compile
 
 #### 第三方apk进系统
@@ -1054,3 +1055,6 @@ sed -i "s/zhangsan/lisi/g" `grep zhangsan -rl /modules`
 
 # 安卓权限
 * 在init.rc中添加上电起来自动执行脚本，脚本里对/system目录的操作是没有权限的，对/data操作可以
+
+# 文件大小命令
+* du -h --max-depth=0 user
