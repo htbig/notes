@@ -33,7 +33,7 @@ hello everyone, i'm ht
 - [ERP系统](#ERP系统)
 - [html_upload](#html_upload)
 - [字符串替换](#字符串替换)
-- [查询文件夹大小] (#文件大小命令)
+- [查询文件夹大小](#文件大小命令)
 # android_compile
 
 #### 第三方apk进系统
