@@ -1060,5 +1060,5 @@ sed -i "s/zhangsan/lisi/g" `grep zhangsan -rl /modules`
 # 文件大小命令
 * du -h --max-depth=0 user
 
-# 安卓发送broadcast
+# 安卓发送broacast
 * am broadcast -a android.intent.action.BOOT_COMPLETED
