@@ -1064,6 +1064,7 @@ sed -i "s/zhangsan/lisi/g" `grep zhangsan -rl /modules`
 # 安卓发送broacast
 * am broadcast -a android.intent.action.BOOT_COMPLETED
 ```
+在/data/system/users/0/package-restrictions.xml会记录apk的stop状态，如果该apk从来没有启动或者被用户强制关掉过，就会处于stopped state状态，就不会接受到broadcast。
 遇到三方编写的apk包无法上电接受BOOT_COMPLETED实现自动重启，网上搜索了一堆方法都不行，于是开始看源码，发现frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java文件里有关于broadcast广播的判断:
 if(((info.flags & ApplicationInfo.FLAG_SYSTEM) ==0)&&("broadcast".equals(hostingType)))
                 {
