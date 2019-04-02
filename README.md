@@ -34,6 +34,7 @@ hello everyone, i'm ht
 - [html_upload](#html_upload)
 - [字符串替换](#字符串替换)
 - [查询文件夹大小](#文件大小命令)
+- [安卓发送信号](#安卓发送broacast)
 # android_compile
 
 #### 第三方apk进系统
@@ -1058,3 +1059,6 @@ sed -i "s/zhangsan/lisi/g" `grep zhangsan -rl /modules`
 
 # 文件大小命令
 * du -h --max-depth=0 user
+
+# 安卓发送broadcast
+* am broadcast -a android.intent.action.BOOT_COMPLETED
