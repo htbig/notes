@@ -61,6 +61,7 @@ oneshot
 ```
 这样系统起来就会执行run_apk.sh并且安装第三方apk了
 
+* build/core/version_defaults.mk下PLATFORM_VERSION := 7.1.2定义安卓版本
 #### 让服务上电起来自动开启
 * 添加start_app相关的东西用来上电自动启动服务，在device/rockchip/common/sepolicy/file_contexts加入
 ```
@@ -1062,3 +1063,12 @@ sed -i "s/zhangsan/lisi/g" `grep zhangsan -rl /modules`
 
 # 安卓发送broacast
 * am broadcast -a android.intent.action.BOOT_COMPLETED
+```
+遇到三方编写的apk包无法上电接受BOOT_COMPLETED实现自动重启，网上搜索了一堆方法都不行，于是开始看源码，发现frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java文件里有关于broadcast广播的判断:
+if(((info.flags & ApplicationInfo.FLAG_SYSTEM) ==0)&&("broadcast".equals(hostingType)))
+                {
+                        if(DEBUG_LOWMEM)Slog.v("xzj", "third part process dont start for broadcast: " + info.uid + "/" + info.processName);
+                        return null;
+                }
+                所以第三方apk无法接受到broadcast，我将return null屏蔽，重新编译了系统，可以实现自己写的apk上电自动启动了
+```
