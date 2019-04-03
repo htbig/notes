@@ -35,6 +35,7 @@ hello everyone, i'm ht
 - [字符串替换](#字符串替换)
 - [查询文件夹大小](#文件大小命令)
 - [安卓发送信号](#安卓发送broacast)
+- [安卓查看端口使用](#安卓查看端口使用)
 # android_compile
 
 #### 第三方apk进系统
@@ -1073,3 +1074,5 @@ if(((info.flags & ApplicationInfo.FLAG_SYSTEM) ==0)&&("broadcast".equals(hosting
                 }
                 所以第三方apk无法接受到broadcast，我将return null屏蔽，重新编译了系统，可以实现自己写的apk上电自动启动了
 ```
+# 安卓查看端口使用
+* netstat -anp|grep 8088会有进程名
