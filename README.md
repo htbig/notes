@@ -8,6 +8,7 @@ hello everyone, i'm ht
 - [安卓签名](#安卓签名)
 - [安卓版本发布](#安卓版本发布)
 - [安卓权限](#安卓权限)
+- [firefly linux烧image](#firefly烧写)
 - [数据库操作](#sql_op)
 - [ssh反向隧道](#ssh)
 - [git修改远端origin](#git_origin)
@@ -1076,3 +1077,13 @@ if(((info.flags & ApplicationInfo.FLAG_SYSTEM) ==0)&&("broadcast".equals(hosting
 ```
 # 安卓查看端口使用
 * netstat -anp|grep 8088会有进程名
+
+# firefly烧写
+* sudo upgrade_tool di -b ./boot.img
+* sudo upgrade_tool di -k ./kernel.img
+* sudo upgrade_tool di -s ./system.img
+* sudo upgrade_tool di -r ./recovery.img
+* sudo upgrade_tool di -m ./misc.img
+* sudo upgrade_tool di resource ./resource.img
+* sudo upgrade_tool di -p ./paramater.txt   #烧写 parameter
+* sudo upgrade_tool ul ./MiniLoaderAll.bin # 烧写 bootloader
