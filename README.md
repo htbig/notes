@@ -449,6 +449,7 @@ v0.10.0版本之前 客户端和服务器端需要为每一个用户请求创建
 在内网pc机添加路由到10.4.32.0网段
 mac  查看路由命令：netstat -nr
 mac：sudo route -n add -net 10.4.32.0 -netmask 255.255.254.0 172.21.30.127
+mac:删路由  sudo route -v delete -net 10.4.32.0 -gateway 172.21.30.127 -netmask 255.255.254.0
 route add -net 10.4.32.0 netmask 255.255.254.0 gw 172.21.30.127
 windowns:
 route add 10.4.32.0 mask 255.255.254.0 172.21.30.127 -p
