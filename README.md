@@ -37,6 +37,7 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 - [查询文件夹大小](#文件大小命令)
 - [安卓发送信号](#安卓发送broacast)
 - [安卓查看端口使用](#安卓查看端口使用)
+- [安卓命令行调试WIFI](#安卓命令行调试WIFI)
 # android_compile
 
 #### 第三方apk进系统
@@ -1088,3 +1089,6 @@ if(((info.flags & ApplicationInfo.FLAG_SYSTEM) ==0)&&("broadcast".equals(hosting
 * sudo upgrade_tool di resource ./resource.img
 * sudo upgrade_tool di -p ./paramater.txt   #烧写 parameter
 * sudo upgrade_tool ul ./MiniLoaderAll.bin # 烧写 bootloader
+# 安卓命令行调试WIFI
+* 开启wifi: svc wifi enable
+* 关闭wifi: svc wifi disable
