@@ -1092,3 +1092,25 @@ if(((info.flags & ApplicationInfo.FLAG_SYSTEM) ==0)&&("broadcast".equals(hosting
 # 安卓命令行调试WIFI
 * 开启wifi: svc wifi enable
 * 关闭wifi: svc wifi disable
+* 查看网络：dumpsys netstats detail：
+```
+Active interfaces:
+  iface=eth0 ident=[{type=ETHERNET, subType=COMBINED, metered=false}]
+  iface=wlan0 ident=[{type=WIFI, subType=COMBINED, networkId="BCM2017", metered=false}]
+Active UID interfaces:
+  iface=eth0 ident=[{type=ETHERNET, subType=COMBINED, metered=false}]
+  iface=wlan0 ident=[{type=WIFI, subType=COMBINED, networkId="BCM2017", metered=false}]
+```
+* 查询所有WI-FI ap
+```
+   wpa_cli scan
+   wpa_cli scan_results
+```
+* 查询Wi-Fi状态：wpa_cli status
+* 增加Wi-Fi：
+```
+wpa_cli add_network
+wpa_cli set_network 0 ssid '"SSID"'
+wpa_cli set_network 0 psk '"PASSPHRASE"'
+```
+* 连接Wi-Fi：wpa_cli enable_network 0
