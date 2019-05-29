@@ -333,6 +333,7 @@ createdb -U admin UTCloudApi_develop创建数据库
 psql -U admin UTCloudApi_develop < db/UTCloudApi_develop.sql导入数据库
 dropdb UTCloudApi_develop删掉DB
 psql -h 10.4.32.180 -U admin -d store_db
+psql -d cloud_db -f 1.sql执行1.sql里的语句
 ```
 # ssh
 ```
