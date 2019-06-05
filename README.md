@@ -38,6 +38,7 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 - [安卓发送信号](#安卓发送broacast)
 - [安卓查看端口使用](#安卓查看端口使用)
 - [安卓命令行调试WIFI](#安卓命令行调试WIFI)
+- [检查磁盘坏块](#检查磁盘坏块)
 # android_compile
 
 #### 第三方apk进系统
@@ -1115,3 +1116,6 @@ wpa_cli set_network 0 ssid '"SSID"'
 wpa_cli set_network 0 psk '"PASSPHRASE"'
 ```
 * 连接Wi-Fi：wpa_cli enable_network 0
+
+# 检查磁盘坏块
+*  badblocks -v /dev/sda10 
