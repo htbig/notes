@@ -39,6 +39,7 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 - [安卓查看端口使用](#安卓查看端口使用)
 - [安卓命令行调试WIFI](#安卓命令行调试WIFI)
 - [检查磁盘坏块](#检查磁盘坏块)
+- [识别磁盘类型](#识别磁盘类型)
 # android_compile
 
 #### 第三方apk进系统
@@ -1119,3 +1120,13 @@ wpa_cli set_network 0 psk '"PASSPHRASE"'
 
 # 检查磁盘坏块
 *  badblocks -v /dev/sda10 
+
+# 识别磁盘类型
+```
+root@u1:/dev# stat -c %T /dev/vda #minor number
+0
+root@u1:/dev# stat -c %t /dev/vda #major number
+xx
+root@u1:/dev# readlink -f /sys/dev/block/xx:0/device/driver
+/sys/bus/virtio/drivers/virtio_blk
+```
