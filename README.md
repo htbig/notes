@@ -222,6 +222,11 @@ python3 ./pip3 install flask_apscheduler
 pytz: timezone,需要/etc/localtime配置文件，但是unix.py系统文件里写的就是/etc/localtime但是安卓系统上文件没有，所以我修改了unix.py文件可以通过了
 接着是ping_job，会fork失败，/data/user/0/org.qpython.qpy3/files/lib/python36.zip/subprocess.py文件FileNotFoundError: [Errno 2] No such file or directory: '/bin/sh': '/bin/sh'出错，估计也得修改源码,修改了subprocess.py，可以了
 ```
+* 安卓上调试
+```
+gdbserver 192.168.50.17:6667 --attach 15619
+target remote 192.168.50.17:6667
+```
 * 编译安卓uboot,kernel,sdk：
 ```
 repo init --repo-url 
