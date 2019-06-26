@@ -190,7 +190,10 @@ sudo java -Djava.library.path=/home/ht/rk3328/prebuilts/sdk/tools/linux/lib64  -
 这里再说一下，因为这里是对apk进行操作的，所以不用IDE的debug来调试，如果没有提前在path里面设置环境变量的话，可以到android的sdk目录platform-tools里有adb，用cmd命令窗来定位，然后执行adb install  yourapkname.apk。如果不是第一次安装，建议把之前的卸载，再安装
 ```
 * 设置adbd运行端口：setprop service.adb.tcp.port 5555 
+```
+pc端adb client连接adb server，adb server在跟设备端的adbd守护进程建立tcp连接
 /sbin/adbd重新运行adbd
+```
 * 交互式的安装apk
 ```
 Intent intent = new Intent(Intent.ACTION_VIEW);
