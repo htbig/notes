@@ -117,6 +117,18 @@ git diff system/core/rootdir/init.rc
 ```
 # android_develop
 ```
+logcat -s tag:priority
+如：logcat -s ActivityManager:I
+logcat输出量比较大，安卓把log输出到不同的缓存区，目前定义了4个：radio,system,event,main,应用的log都输给main，默认log输出不指定的话是输给main和system.缓存区是环形首尾相连结构，大小固定，会新log到了一定大小覆盖旧log的。
+logcat –b system查看system的缓存区log，
+logcat -c 清除缓存区log
+logcat -d 输出到屏幕后退出
+logcat -f xxx 输出到文件中，默认标准输出
+logcat -g 输出缓存区大小
+
+
+其中priority有V-(verbose) -明细 (最低优先级) • D-(debug)-调试• I-(information)-信息• W-(warning)-警告• E-(error)-错误
+• F — 严重错误• S — 无记载
 adb root
 adb connect 172.21.30.197
 adb install apk的路径 就可以直接安装成功
