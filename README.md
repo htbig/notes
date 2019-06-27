@@ -117,6 +117,10 @@ git diff system/core/rootdir/init.rc
 +    group root
 ```
 # android_develop
+* 安卓中c程序编译
+```
+想实现一个守护进程在安卓系统检查各个服务运行情况，如何某服务退出就重新开启某服务，用c写的程序，直接gcc编译放在安卓系统/system/bin下执行，一直不正常，一些system,popen的执行都不对，最后改为 ndk-build，可以正常实现功能。查看相关知识点：https://developer.android.google.cn/ndk/guides?hl=zh-cn
+```
 ```
 logcat -s tag:priority
 如：logcat -s ActivityManager:I
