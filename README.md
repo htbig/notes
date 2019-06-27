@@ -40,6 +40,7 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 - [安卓命令行调试WIFI](#安卓命令行调试WIFI)
 - [检查磁盘坏块](#检查磁盘坏块)
 - [识别磁盘类型](#识别磁盘类型)
+- [gdb调试](#gdb调试)
 # android_compile
 
 #### 第三方apk进系统
@@ -1149,4 +1150,14 @@ root@u1:/dev# stat -c %t /dev/vda #major number
 xx
 root@u1:/dev# readlink -f /sys/dev/block/xx:0/device/driver
 /sys/bus/virtio/drivers/virtio_blk
+```
+# gdb调试
+```
+gdb调试死锁的方法：
+gdb 
+attach pid
+thread apply all bt
+
+找到_lll_lock_wait 锁等待的地方。
+然后查找该锁被哪个线程锁住了。
 ```
