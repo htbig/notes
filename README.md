@@ -499,6 +499,8 @@ date -d "$(awk -F. '{print $1}' /proc/uptime) second ago" +"%Y-%m-%d %H:%M:%S"
 * 转化csv文件命令
 ```
 cat user.csv | awk -F',' '{printf("%s,%s,,,0,,True,1,,,,0\n", $2,$5)}'>new.csv
+去掉重复行
+cat new.csv | sort | uniq > xxx.csv
 ```
 ## 遇到问题
 * sdk使用前先注册Register_SDK.bat，使用udp协议，端口4370
