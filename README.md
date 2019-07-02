@@ -499,6 +499,7 @@ date -d "$(awk -F. '{print $1}' /proc/uptime) second ago" +"%Y-%m-%d %H:%M:%S"
 * 转化csv文件命令
 ```
 cat user.csv | awk -F',' '{printf("%s,%s,,,0,,True,1,,,,0\n", $2,$5)}'>new.csv
+$0 所有字符串, $1 第一个
 去掉重复行
 cat new.csv | sort | uniq > xxx.csv
 ```
