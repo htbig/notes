@@ -22,7 +22,7 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 - [路由添加](#路由添加)
 - [查看上电时间](#查看上电时间)
 - [启动django](#启动django)
-- [路由添加](#路由添加)
+- [路由转发](#路由转发)
 - [systemd-timesyncd](#systemd-timesyncd)
 - [考勤机](#考勤机)
 - [go语言](#go语言)
@@ -478,6 +478,7 @@ v0.10.0版本之前 客户端和服务器端需要为每一个用户请求创建
 在内网pc机添加路由到10.4.32.0网段
 mac  查看路由命令：netstat -nr
 mac：sudo route -n add -net 10.4.32.0 -netmask 255.255.254.0 172.21.30.127
+sudo route -n add -net 114.114.114.0 -netmask 255.255.255.0 192.168.166.100
 mac:删路由  sudo route -v delete -net 10.4.32.0 -gateway 172.21.30.127 -netmask 255.255.254.0
 route add -net 10.4.32.0 netmask 255.255.254.0 gw 172.21.30.127
 windowns:
@@ -1167,4 +1168,53 @@ thread apply all bt
 
 找到_lll_lock_wait 锁等待的地方。
 然后查找该锁被哪个线程锁住了。
+```
+# 路由转发
+```
+实验步骤：
+
+1:打开4g网络   start celular 
+
+2:测试外网连通性   ping 114.114.114.114
+
+3: 配置以太网ip    ifconfig eth0 192.168.166.100 netmask 255.255.255.0， 同时自己pc几也配置同一局域网ip：192.168.166.51
+
+ping -I eth0 192.168.166.51
+
+ping -I ppp0  114.114.114.114
+
+上两条命令可以ping 通，但是ping 不加-I就无法ping 通，最后知道是ip rule走eth0 table ,不是main table,然后eth0 table里没有任何路由
+
+4： 往eth0 table 里添加路由：
+
+ip route list table default 
+
+ip route list table main
+
+ip route add default dev ppp0 table eth0
+
+ip route add 10.64.64.64 dev ppp0 proto kernel src 10.97.96.255  table eth0
+
+ip route add 192.168.166/24 dev eth0 proto kernel src 192.168.166.100  table eth0
+
+这样ping 114.114.114.114,ping 192.168.166.51都可以ping通
+
+5: 开始配置ip转发
+
+查看命令：iptables -t nat -L
+cat /proc/sys/net/ipv4/ip_forward默认为0
+echo 1 > /proc/sys/net/ipv4/ip_forward或者sysctl -w net.ipv4.ip_forward=1
+iptables -t nat -A POSTROUTING -s 192.168.166.0/24 -o ppp0 -j MASQUERADE
+这样配置之后发现，自己上还是ping 114.114.114.114不通，在开发板上tcpdump -i ppp0 -Q inout也查看不到192.168.166.51过来的包，网上搜到说执行：
+iptables -F
+iptables -t nat -F
+iptables -X
+删掉之前的路由规则就可以，尝试了，确实可以ping通了，但是还是得找到根本原因。
+最后发现是FORWARD chain 的natctrl_FORWARD有一条规则：
+Chain natctrl_FORWARD (1 references)
+target     prot opt source               destination
+DROP       all  --  anywhere             anywhere
+查看命令：iptables -L natctrl_FORWARD --line-numbers
+删除命令：iptables -D natctrl_FORWARD 1
+这样自己mac电脑终于可以通过开发版ip转发ping 114.114.114.114通了
 ```
