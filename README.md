@@ -152,7 +152,7 @@ pm list package -3 获取安装的第三方库软件
 清除apk关联数据命令：pm clear 包名
 pm dump com.example.cc.alarm |grep versionName 查看apk版本
 pm dump 包名 返回值里有一个stopped=true表示服务停止，stopped=false表示服务在运行
-pm install -r app-debug.apk 替换已经安装的apk
+pm install -r app-debug.apk 替换已经安装的apk,不会删掉应用之前保存的db或者其他信息
 
 交互界面：可以打开文件跳出安装界面问你是否安装
 Intent intent = new Intent(Intent.ACTION_VIEW);
