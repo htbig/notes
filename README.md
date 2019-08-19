@@ -170,6 +170,7 @@ https://blog.csdn.net/lyb2518/article/details/77072792（更详细）
 * 重新挂载分区
 ```
 mount -o rw,remount /system  重新mount/system为可读写
+mount /dev/sdb /var/root     tech上mount了3T的盘
 ```
 * 在apk安装时，系统默认会给每个app分配一个uid，在/data/system/packages.xml文件中可以查看到所有安装的app的uid。在默认情况下每个app有自己的uid，只能够访问自己的数据，如果多个app设置了相同的uid，他们就能运行在同一个进程中，就能够实现数据的共享。当程序想要获取系统权限时，将android:SharedUserId 属性设置为”android.uid.system"，可以让程序运行在系统进程中，能够实现系统时间的修改。 但是只是设置sharedUserId并不能够实现去获取系统权限，想要获取系统权限还必须要有相应的签名。
 android:sharedUserId="android.uid.system"添加在<manifest xmlns:android="http://schemas.android.com/apk/res/android"
