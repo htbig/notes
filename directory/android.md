@@ -13,6 +13,7 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 - [安卓查看端口使用](#安卓查看端口使用)
 - [安卓命令行调试WIFI](#安卓命令行调试WIFI)
 - [app专属和独立文件](#app专属和独立文件)
+- [android同步网络时间](#同步网络时间)
 
 # android_compile
 
@@ -352,4 +353,8 @@ app专属文件就是那些只有该app才可以使用的文件，这类文件�
 获取这个路径的方法：File eFile=getExternalFilesDir(null);
 app独立文件就是那些不依赖某些特定app的文件，这类文件当我们删除应用之后，还应该保留,File sdCard=Environment.getExternalStorageDirectory();这个路径为sd卡的根路径mnt/sdcard
 File directory_pictures = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+```
+# 同步网络时间
+```
+busybox rdate -s 208.74.121.43
 ```
