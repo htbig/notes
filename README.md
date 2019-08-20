@@ -5,7 +5,7 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 ## [安卓相关知识](/directory/android.md)
 ## [考勤机](/directory/考勤机.md)
 ## [性能监控](/directory/性能监控.md)
-## [ERP系统](/directory/ERP系统.md)
+## [ERP系统](/directory/ERP.md)
 
 # 2019 Mar
 - [firefly linux烧image](#firefly烧写)
