@@ -2,6 +2,8 @@
 
 hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 
+## [Monitor](/directory/android.md)
+
 # 2019 Mar
 - [安卓编译](#android_compile)
 - [安卓开发](#android_develop)
