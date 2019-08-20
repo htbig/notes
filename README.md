@@ -3,6 +3,7 @@
 hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 
 ## [安卓相关知识](/directory/android.md)
+## [考勤机](/directory/考勤机.md)
 
 # 2019 Mar
 - [firefly linux烧image](#firefly烧写)
