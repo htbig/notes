@@ -288,6 +288,9 @@ android:versionName:这个是我们常说明的版本号，由三部分组成<ma
 ```
 # 安卓权限
 * 在init.rc中添加上电起来自动执行脚本，脚本里对/system目录的操作是没有权限的，对/data操作可以
+
+# 域名不通
+
 # 安卓发送broacast
 * am broadcast -a android.intent.action.BOOT_COMPLETED
 ```
