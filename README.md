@@ -5,7 +5,6 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 ## [安卓相关知识](/directory/android.md)
 
 # 2019 Mar
-- [安卓4g ppp上网域名不同](#域名不通)
 - [firefly linux烧image](#firefly烧写)
 - [数据库操作](#sql_op)
 - [ssh反向隧道](#ssh)
@@ -42,10 +41,6 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 dd if=/dev/sdc of=/home/ht/image/image_16
 dd if=/home/ht/image/image_16 of=/dev/sdc(速度5M，6M多)
 sudo watch -n 5 pkill -USR1 ^dd查看dd 进度
-```
-# 域名不通
-```
-添加dns: ndc resolver setnetdns ppp0 114.114.114.114 8.8.8.8
 ```
 # sql_op
 * 编写django代码有创建数据库到生成models.py文件步骤
