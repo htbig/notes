@@ -5,7 +5,8 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 ## [安卓相关知识](/directory/android.md)
 ## [考勤机](/directory/考勤机.md)
 ## [性能监控](/directory/性能监控.md)
-## [ERP系统](/directory/ERP系统.md)
+## [ERP系统](/directory/ERP.md)
+## [azure iot](/directory/azure.md)
 
 # 2019 Mar
 - [firefly linux烧image](#firefly烧写)
@@ -35,6 +36,7 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 - [检查磁盘坏块](#检查磁盘坏块)
 - [识别磁盘类型](#识别磁盘类型)
 - [gdb调试](#gdb调试)
+- [免费签名](#免费签名)
                                
 * 将制作的tf卡内容dd到image文件，然后在dd回其他tf卡
 ```
@@ -432,4 +434,8 @@ DROP       all  --  anywhere             anywhere
 查看命令：iptables -L natctrl_FORWARD --line-numbers
 删除命令：iptables -D natctrl_FORWARD 1
 这样自己mac电脑终于可以通过开发版ip转发ping 114.114.114.114通了
+```
+# 免费签名
+```
+let's encrypt
 ```

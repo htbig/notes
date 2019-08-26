@@ -12,6 +12,8 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 - [安卓发送信号](#安卓发送broacast)
 - [安卓查看端口使用](#安卓查看端口使用)
 - [安卓命令行调试WIFI](#安卓命令行调试WIFI)
+- [app专属和独立文件](#app专属和独立文件)
+- [android同步网络时间](#同步网络时间)
 
 # android_compile
 
@@ -342,3 +344,17 @@ wpa_cli set_network 0 ssid '"SSID"'
 wpa_cli set_network 0 psk '"PASSPHRASE"'
 ```
 * 连接Wi-Fi：wpa_cli enable_network 0
+
+# app专属和独立文件
+```
+app专属文件就是那些只有该app才可以使用的文件，这类文件随app的删除而删除，他们可以被存储两个地方：internal storage和external storage
+存储在internal storage：这是你app私有的目录，你的shared preference文件数据库文件都在这里。目录为"data/data/<package name>/file/.."   访问方法为: File fdir=gerFilesDir();
+存储在external storage：这类文件存在在"mnt/sdacard/Android/data/<package name>/file/.."目录下。随app的删除而删除。
+获取这个路径的方法：File eFile=getExternalFilesDir(null);
+app独立文件就是那些不依赖某些特定app的文件，这类文件当我们删除应用之后，还应该保留,File sdCard=Environment.getExternalStorageDirectory();这个路径为sd卡的根路径mnt/sdcard
+File directory_pictures = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+```
+# 同步网络时间
+```
+busybox rdate -s 208.74.121.43
+```
