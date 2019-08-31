@@ -37,6 +37,7 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 - [识别磁盘类型](#识别磁盘类型)
 - [gdb调试](#gdb调试)
 - [免费签名](#免费签名)
+- [查看cpu温度](#查看cpu温度)
                                
 * 将制作的tf卡内容dd到image文件，然后在dd回其他tf卡
 ```
@@ -438,4 +439,8 @@ DROP       all  --  anywhere             anywhere
 # 免费签名
 ```
 let's encrypt
+```
+# 查看cpu温度
+```
+cat /sys/class/thermal/thermal_zone0/temp | awk '{print "CPU Temp:"(int($0) / 1000)}
 ```
