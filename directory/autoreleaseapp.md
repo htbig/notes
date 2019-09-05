@@ -2,40 +2,34 @@
 
 #### 例子
 ```
-下载工程到10.4.32.248:/home/ht/packages下:
-sudo git clone ssh://git@10.4.32.250:10022/veg/nayax_android.git
-cd nayax_android
-sudo cp ../goCubeSales/build.py ./
-sudo cp ../goCubeSales/release.py ./
-sudo cp ../goCubeSales/.gitlab-ci.yml ./      (需要修改成对应的项目名称)
-sudo cp ../goCubeSales/make.sh ./
-sudo cp ../goCubeSales/local.properties ./
-sudo cp ../goCubeSales/ustar-ai.keystore ./
-在git界面setting里设置ci/di的runnners为10.4.32.248那个
-在/home/ht/veg_auto_android.sh里添加nayax的相关选项:
-diff --git a/veg_auto_android.sh b/veg_auto_android.sh
+下载工程到本地目录:/home/ht/packages下:
+sudo git clone xxx.git
+cd xxx
+sudo cp ../yyy/build.py ./
+sudo cp ../yyy/release.py ./
+sudo cp ../yyy/.gitlab-ci.yml ./      (需要修改成对应的项目名称)
+sudo cp ../yyy/make.sh ./
+sudo cp ../yyy/local.properties ./
+sudo cp ../yyy/xxxai.keystore ./
+在git界面setting里设置ci/di的runnners
+在/home/ht/auto.sh里添加xxx的相关选项:
+diff --git a/auto.sh b/auto.sh
 index b72274b..eeb2537 100755
---- a/veg_auto_android.sh
-+++ b/veg_auto_android.sh
+--- a/auto.sh
++++ b/auto.sh
 @@ -52,6 +52,7 @@ _usage ()
-     echo "                              gocubesales"
-     echo "                              gocubesetting"
-     echo "                              gocubemng"
-+    echo "                              nayax"
+     
++    echo "                              xxx"
      echo "    -r <pkg_name_gen>    Set build package genenate name"
      echo "    -m <repo path>    Set pacman repo path, default is /srv/http/testing"
      echo "    -n <repo name>    Set pacman repo name, default is testing"
-@@ -145,6 +146,10 @@ if [ ${pkg_name} == "gocubemng" ]; then
-     src_path=/home/ht/packages/gocubemng
-     root_path=/home/ht/packages/gocubemng
- fi
-+if [ ${pkg_name} == "nayax" ]; then
-+    src_path=/home/ht/packages/nayax_android
-+    root_path=/home/ht/packages/nayax_android
+
++if [ ${pkg_name} == "xx" ]; then
++    src_path=/home/ht/packages/xxx
++    root_path=/home/ht/packages/xxx
 +fi
 
 每次修改工程app/src下的文件提交代码就会编译出临时的apk，如果修改app/build.gradle文件就会编译出release版本（修改里面的versionName字段）
-测试ok的话，就可以在10.4.32.248:8083界面发布软件，这样iot_cloud的8500界面就可以看到最新版本号，可以升级版本了。
 ```
 ### auto.sh
 ```
@@ -196,7 +190,7 @@ build:
     script:
         - need_build=`python build.py`
         - need_release=`python release.py`
-        - if [ "$need_release" = "True" ]; then /home/ht/veg_auto_android.sh -lp apps; elif [ "$need_build" = "True" ]; then /home/ht/veg_auto_android.sh -p apps; fi
+        - if [ "$need_release" = "True" ]; then /home/ht/auto.sh -lp apps; elif [ "$need_build" = "True" ]; then /home/ht/auto.sh -p apps; fi
     only:
         - master
 
