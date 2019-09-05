@@ -1,5 +1,9 @@
 ### 安卓版本自动化发布软件
 
+#### 命令
+```
+/usr/bin/gitlab-ci-multi-runner run --working-directory /home/gitlab-runner --config /etc/gitlab-runner/config.toml --service gitlab-runner --syslog --user gitlab-runner
+```
 #### 例子
 ```
 下载工程到本地目录:/home/ht/packages下:
