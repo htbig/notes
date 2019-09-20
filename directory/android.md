@@ -14,6 +14,7 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 - [安卓命令行调试WIFI](#安卓命令行调试WIFI)
 - [app专属和独立文件](#app专属和独立文件)
 - [android同步网络时间](#同步网络时间)
+- [android域名问题](#android域名问题)
 
 # android_compile
 
@@ -358,3 +359,10 @@ File directory_pictures = Environment.getExternalStoragePublicDirectory(Environm
 ```
 busybox rdate -s 208.74.121.43
 ```
+# android域名问题
+* 如果是go编译出来的会在/etc/resolv.conf，下找dns服务器，所以安卓image里添加/etc/resolv.conf,内容,阿里dns服务器地址
+```
+nameserver 223.5.5.5
+nameserver 223.6.6.6
+```
+* 如果是原生的java代码
