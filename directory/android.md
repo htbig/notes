@@ -15,6 +15,7 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 - [app专属和独立文件](#app专属和独立文件)
 - [android同步网络时间](#同步网络时间)
 - [android域名问题](#android域名问题)
+- [android4G拨号上网](#android4G拨号上网)
 
 # android_compile
 
@@ -366,3 +367,8 @@ nameserver 223.5.5.5
 nameserver 223.6.6.6
 ```
 * 如果是原生的java代码
+
+# android4G拨号上网
+```
+https://gitlab.com/TeeFirefly/RK3328-Nougat/commits/roc-rk3328-cc代码的提交
+```
