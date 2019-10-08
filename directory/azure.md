@@ -29,13 +29,20 @@ sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev li
 
  sudo apt-get install libssl-dev zlib1g-dev
 ```
-# azure iot client install 
+# azure iot 测试
 * 准备设备端环境
 ```
 https://github.com/Azure/azure-iot-sdk-c/blob/master/doc/devbox_setup.md#linux
 ```
+* 编写测试端c sdk的client code，模拟多台设备发送数据到云端，测试设备发向云端的时耗：首次发送100+ms, 之后20+ms.
+* 云端到设备端的device method, 测试云端发往设备端的数据到收到返回时间33～55ms.
+```
+https://github.com/Azure-Samples/azure-iot-samples-python.git (fetch)
+```
+???
 * 获取设备发给云端的消息
 ```
 https://github.com/Azure/azure-sdk-for-python/tree/master/sdk/eventhub/azure-eventhubs
 ```
-c2d:单条332ms,551ms
+???
+* 云端批量发到设备端大量数据
