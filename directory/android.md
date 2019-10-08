@@ -369,6 +369,12 @@ nameserver 223.6.6.6
 * 如果是原生的java代码
 
 # android4G拨号上网
+* sdk改动
 ```
 https://gitlab.com/TeeFirefly/RK3328-Nougat/commits/roc-rk3328-cc代码的提交
 ```
+* 几种网络优先级
+ ```
+ frameworks/opt/net/ethernet/java/com/android/server/ethernet/EthernetNetworkFactory.java
+ NETWORK_SCORE = 30
+ ```
