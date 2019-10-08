@@ -29,3 +29,13 @@ sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev li
 
  sudo apt-get install libssl-dev zlib1g-dev
 ```
+# azure iot client install 
+* 准备设备端环境
+```
+https://github.com/Azure/azure-iot-sdk-c/blob/master/doc/devbox_setup.md#linux
+```
+* 获取设备发给云端的消息
+```
+https://github.com/Azure/azure-sdk-for-python/tree/master/sdk/eventhub/azure-eventhubs
+```
+c2d:单条332ms,551ms
