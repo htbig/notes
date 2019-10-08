@@ -45,4 +45,7 @@ https://github.com/Azure-Samples/azure-iot-samples-python.git (fetch)
 https://github.com/Azure/azure-sdk-for-python/tree/master/sdk/eventhub/azure-eventhubs
 ```
 ???
-* 云端批量发到设备端大量数据
+* 云端批量发到设备端大量数据,批量命令
+```
+for ((i=0; i<1000; ++i))  ; do   curl -X POST http://40.73.247.179:8086/rrpc -H 'Authorization: Basic YXBpOnh4' -H 'Cache-Control: no-cache'  -H 'Content-Type: application/json' -d '{"devname": "test1","req": {"A": 3,"P":10}}' ; done
+```
