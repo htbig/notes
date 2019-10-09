@@ -49,3 +49,5 @@ https://github.com/Azure/azure-sdk-for-python/tree/master/sdk/eventhub/azure-eve
 ```
 for ((i=0; i<1000; ++i))  ; do   curl -X POST http://40.73.247.179:8086/rrpc -H 'Authorization: Basic YXBpOnh4' -H 'Cache-Control: no-cache'  -H 'Content-Type: application/json' -d '{"devname": "test1","req": {"A": 3,"P":10}}' ; done
 ```
+HostName=httest.azure-devices.cn;DeviceId=test1;SharedAccessKey=1dclFuPQjUUxwKDQceJsMQpAaXGY3Yt8gifLwDljUgY=
+HostName=httest.azure-devices.cn;DeviceId=test1;SharedAccessKey=1dclFuPQjUUxwKDQceJsMQpAaXGY3Yt8gifLwDljUgY=
