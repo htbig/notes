@@ -41,16 +41,16 @@ https://github.com/Azure-Samples/azure-iot-samples-python.git (fetch)
 ```
 * 设备到云端单台设备测试发送10000条信息，丢了1条（默认retry policy）
 * 获取设备发给云端的消息
-** 采用消息队列方式
+* 采用消息队列方式
 ```
 https://docs.azure.cn/zh-cn/service-bus-messaging/service-bus-python-how-to-use-queues（这两种：消息队列或者消息主题）
 https://github.com/Azure/azure-sdk-for-python/tree/master/sdk/eventhub/azure-eventhubs（这种方式不太采用，需要自己控制读取消息的位置）
 ```
-** 采用消息队列或者消息主题区别
+* 采用消息队列或者消息主题区别
 ```
 https://docs.azure.cn/zh-cn/service-bus-messaging/service-bus-messaging-overview?toc=https%3A%2F%2Fdocs.azure.cn%2Fzh-cn%2Fservice-bus-messaging%2FTOC.json&bc=https%3A%2F%2Fdocs.azure.cn%2Fzh-cn%2Fbread%2Ftoc.json
 ```
-** 国内一般看https://www.azure.cn/，不看.com
+* 国内一般看https://www.azure.cn/，不看.com
 ???
 * 云端批量发到设备端大量数据,批量命令
 ```
