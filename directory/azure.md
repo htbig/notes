@@ -74,3 +74,16 @@ https://azure.microsoft.com/zh-cn/services/cognitive-services/anomaly-detector/
 ```
 SELECT COUNT() AS numberOfDevices FROM c
 ```
+    
+* 自定义视觉：提供微软的算法处理图象，中国区不支持打框。不打框识别中国区使用SDK创建app，上传图片，训练模型和测试
+```
+https://docs.azure.cn/zh-cn/cognitive-services/computer-vision/quickstarts-sdk/python-sdk
+* Azure 机器学习服务是一项云服务，可以使用它来训练、部署、自动执行以及管理机器学习模型，所有这些都是在云提供的广泛范围内进行的
+```
+https://docs.microsoft.com/zh-cn/azure/machine-learning/service/overview-what-is-azure-ml
+Azure 机器学习服务提供平台服务，算法可以是用户自己的。
+
+    目前中国区不支持，官网显示年底即将上线GA版。
+https://azure.microsoft.com/zh-cn/global-infrastructure/services/?regions=china-non-regional,china-north,china-north-2,china-east,china-east-2&products=machine-learning-service
+```
+
