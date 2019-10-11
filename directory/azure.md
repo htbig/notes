@@ -86,4 +86,7 @@ Azure 机器学习服务提供平台服务，算法可以是用户自己的。
     目前中国区不支持，官网显示年底即将上线GA版。
 https://azure.microsoft.com/zh-cn/global-infrastructure/services/?regions=china-non-regional,china-north,china-north-2,china-east,china-east-2&products=machine-learning-service
 ```
-
+* device twin
+```
+本想着可以做离线配置，测试发现设别离线情况，云端配置的device twin，但是设备再次上线并不能收到derired请求
+```
