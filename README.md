@@ -363,6 +363,17 @@ http上传文件到系统内存，大于默认大小。会存在临时文件里
 sed -i "s/zhangsan/lisi/g" `grep zhangsan -rl /modules`
 ```
 
+#vim 替换字符串
+```
+:%s/\r//g
+
+% 加上这个，表示操作全文的“每一行”。（默认只操作当前一行）
+s  替换命令：substitute
+/\r 替换源是\r
+/    替换为“空”
+/g  整行所有的匹配都要替换。（默认只替换第一处）
+```
+
 # 文件大小命令
 * du -h --max-depth=0 user
 
