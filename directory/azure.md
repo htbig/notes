@@ -30,6 +30,7 @@ sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev li
  sudo apt-get install libssl-dev zlib1g-dev
 ```
 # azure iot 测试
+## 1 day
 * 准备设备端环境
 ```
 https://github.com/Azure/azure-iot-sdk-c/blob/master/doc/devbox_setup.md#linux
@@ -39,8 +40,10 @@ https://github.com/Azure/azure-iot-sdk-c/blob/master/doc/devbox_setup.md#linux
 ```
 https://github.com/Azure-Samples/azure-iot-samples-python.git (fetch)
 ```
+## 2 day
 * 设备到云端单台设备测试发送10000条信息，丢了1条（默认retry policy,不会retry），加上retry没丢
 * 设备到云端模拟10000台设备发送数据50万，10万均未丢数据。
+## 3day
 * 获取设备发给云端的消息
 * 采用消息队列方式
 ```
@@ -52,6 +55,7 @@ https://github.com/Azure/azure-sdk-for-python/tree/master/sdk/eventhub/azure-eve
 https://docs.azure.cn/zh-cn/service-bus-messaging/service-bus-messaging-overview?toc=https%3A%2F%2Fdocs.azure.cn%2Fzh-cn%2Fservice-bus-messaging%2FTOC.json&bc=https%3A%2F%2Fdocs.azure.cn%2Fzh-cn%2Fbread%2Ftoc.json
 ```
 * 国内一般看https://www.azure.cn/，不看.com
+## 4 day
 * 云端批量发到设备端大量数据,批量命令，云端到设备端串行下发10000万条信息，正常速度体验
 ```
 for ((i=0; i<1000; ++i))  ; do   curl -X POST http://40.73.247.179:8086/rrpc -H 'Authorization: Basic YXBpOnh4' -H 'Cache-Control: no-cache'  -H 'Content-Type: application/json' -d '{"devname": "test1","req": {"A": 3,"P":10}}' ; done
