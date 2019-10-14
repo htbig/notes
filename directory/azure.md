@@ -58,7 +58,7 @@ https://docs.azure.cn/zh-cn/service-bus-messaging/service-bus-messaging-overview
 ## 4 day
 * 云端批量发到设备端大量数据,批量命令，云端到设备端串行下发10000万条信息，正常速度体验
 ```
-for ((i=0; i<1000; ++i))  ; do   curl -X POST http://40.73.247.179:8086/rrpc -H 'Authorization: Basic YXBpOnh4' -H 'Cache-Control: no-cache'  -H 'Content-Type: application/json' -d '{"devname": "test1","req": {"A": 3,"P":10}}' ; done
+for ((i=0; i<1000; ++i))  ; do   curl -X POST http://xxx:xxx/rrpc -H 'Authorization: Basic YXBpOnh4' -H 'Cache-Control: no-cache'  -H 'Content-Type: application/json' -d '{"devname": "test1","req": {"A": 3,"P":10}}' ; done
 ```
 * 流分析
 ```
