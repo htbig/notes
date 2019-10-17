@@ -47,6 +47,13 @@ dd if=/dev/sdc of=/home/ht/image/image_16
 dd if=/home/ht/image/image_16 of=/dev/sdc(速度5M，6M多)
 sudo watch -n 5 pkill -USR1 ^dd查看dd 进度
 ```
+* 制作虚拟文件系统
+```
+dd if=/dev/zero of=/home/ustar/fat32 bs=1G count=10
+mkdir /home/ht/ONL
+mkfs.vfat fat32
+sudo mount -o rw -t vfat /home/ustar/fat32 /home/ustar/ONL
+```
 # sql_op
 * 编写django代码有创建数据库到生成models.py文件步骤
 ```
