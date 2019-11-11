@@ -40,6 +40,7 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 - [gdb调试](#gdb调试)
 - [免费签名](#免费签名)
 - [查看cpu温度](#查看cpu温度)
+- [映射windows目录到linux](#映射windows目录到linux)
                                
 * 将制作的tf卡内容dd到image文件，然后在dd回其他tf卡
 ```
@@ -468,4 +469,21 @@ let's encrypt
 # 查看cpu温度
 ```
 cat /sys/class/thermal/thermal_zone0/temp | awk '{print "CPU Temp:"(int($0) / 1000)}
+```
+# 映射windows目录到linux
+* 可以使用mount挂载
+```
+首先创建被挂载的目录：
+
+$ mkdir windows
+
+将共享文件夹挂载到windows文件夹：
+
+$ sudo mount -t cifs -o username=TP11060,password=share //192.168.66.198/share ./windows
+
+其中几个参数表示含义：
+
+    cifs：Common Internet File System，可以理解为网络文件系统。
+    usrname：访问共享文件夹的用户名,如TP11060
+    password：访问密码
 ```
