@@ -7,7 +7,7 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 ## [性能监控](/directory/性能监控.md)
 ## [ERP系统](/directory/ERP.md)
 ## [azure iot](/directory/azure.md)
-## [CI/DI自动化发布版本](/directory/autoreleaseapp.md)
+## [CI/CD自动化发布版本](/directory/autoreleaseapp.md)
 ## [OpenNetworkLinux](/directory/ONL.md)
 
 # 2019 Mar
