@@ -1,0 +1,60 @@
+# iot
+
+* 物联网套件的选择:微软和阿里百度等
+```
+1 地域选择:阿里百度国内,微软国外,到后来需要用到微软时候确实也发现微软的很多iot功能都是在国际分支有实现,中国版没有的.
+2 业务重点:微软和百度重点都在数据采集后的存储,分析,展现.以及对数据的分析,人工智能为重点,重点不在接入;阿里的物联网套件重点一是设备接入,二是数据的导出
+3 数据安全性:微软和阿里都是采用ssl加密才能云端和设备端通信,百度不强制.特别阿里要求更高,一定要ssl版本为TLSV1.1 或 TLSV1.2 版本.
+```
+* 物联网套件协议选择:mqtt.https.amqp.coap(仅支持udp协议,且仅仅华东2上海地区支持coap)
+```
+阿里iot支持mqtt/coap/http,其中只有mqtt支持远程控制设备;
+且mqtt是基于tcp/ip协议栈的异步通信消息协议,适用于设备硬件存储有限,或者网络不稳定的情况,阿里iot且在原生mqtt topic基础上实现了rrpc(Revert Remote Procedure Call)同步通讯方式,
+微软是derict method方式.
+还支持http协议,https保证通道安全,它只适合单纯的数据上报场景,显然不适合我们需要S2D的场景
+```
+* 何为nb-iot
+```
+Narrow Band Internet of Things, NB-IoT,不太懂
+```
+* 何为websocket
+```
+平时使用的http协议,只能客户端发起,服务端无法主动向客户端发起请求,websocket就是为解决这个而产生.websocket协议客户端,服务端都可主动推送信息,可以文本或者二进制文件
+```
+* node js/pyhton
+```
+node 安装模块用npm install
+python安装模块用pip install 
+```
+* 如何保证数据安全ssl/tsl 协议知识
+```
+加密证书等?????????????????????
+```
+* 如何处理网络压力
+```
+负载均衡方式????????????????????
+```
+* beego开源框架实现告警模块
+```
+go语言实现,MVC架构,开发文档多,详细.数据库选择sqlite
+op_id用于计数,实现云端和设备端大小比较获得同步状态,se_id用来记录同样告警的流水信息.
+需要告警信息表,操作记录表,流水表等,
+```
+* 如何防止时刻时刻很多告警同时上报上来问题
+```
+两方面考虑,1:从告警源头来解决,如果有告警上报消失频率高,说明告警产生模块编写就不太正常,做出修改;设备端的告警模块也会做筛选,如果该告警已经上报过,存在设备端
+数据库,是不会重复上报给云端的
+2:设备端发送到云端接受都是按照顺序接受的,所以一般不会出现不同步,除非是一条告警还没结束处理(即op_id还没有+1),下一条同设备的
+告警就上报上来了(这种属于设备端发送告警频率过于频繁,需要修改上报告警的模块);
+```
+* Django框架
+```
+python实现,处理高请求问题
+命令:1 django-admin startproject project_name创建工程2:python manage.py startapp app_name新建app3:python manage.py makemigrations创建更改文件,
+会生成py文件4:python manage.py migrate将生成的py文件应用的数据库5:python manage.py runserver 0.0.0.0:8000启动服务6:python manage.py createsuperuser创建
+用户7:python manage.py dbshell进入数据库8:python manage.py可以看到更多命令
+```
+* 告警及事件
+```
+???????????????????????
+```
