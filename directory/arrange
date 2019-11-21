@@ -125,5 +125,14 @@ cpu可以处理来自用户态和内核态的中断或者异常,内核态发生�
 jos中用int $30触发cpu中断完成系统调用:如果为系统调用会调用lib/syscall.c下传入不同的syscall_no(%eax存放)其他参数分别用%edx, %ecx, %ebx, %edi, 和%esi
 保存,不同的trap也有不同的trap_no,进入内核栈,组件trap_frame之后调用trap函数来根据不同的trap_no,分配给不同的处理函数去执行.如果是系统调用kern/syscall.c
 的syscall根据不同的syscall_no调用不同的函数实现,结果通过寄存器eax返回给用户态
-
+```
+* smp
+```
+symmetric multiprocessing,指所有处理器地位是对等的,包括内存对称和IO对称,虽然对等,但是他们也分为bsp处理器(负责初始化其他cpu)和ap处理器,至于哪个是bsp由
+bios决定.
+Advanced Programmable Interrupt Controller(高级可编程中断控制器)分为两个单元:LAPIC和IO APIC,他们通过ICC相连.作用1:减轻内存总线关于中断向量流量,
+2:可以在多处理器里面分担中断处理负载.LAPIC提供interprocessor interrupts (IPIs),允许任意处理器中断其他处理器或者设置其他处理器，有好几种类型的IPIs，
+如INIT IPIs和STARTUP IPIs,LAPIC和IO APIC可以是独立的芯片,也可以将LAPIC和CPU放在同一个芯片里.
+在SMP系统中,每个CPU伴随着一个LAPIC单元,用于传递和响应系统中断,也为与相连的CPU提供了唯一的ID
+MMIOBASE(0xef800000)开始溜了4M给MMIO使用
 ```
