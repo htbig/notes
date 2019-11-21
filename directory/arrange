@@ -112,4 +112,6 @@ gitlab-runner跑在编译版本服务器上，运行注册到gitlab服务器，�
 KERBASE为0xf0000000，到0xffffffff有256M，给内核使用，ULIM为0xef800000，以上的地址用户无法访问，kernel可以读写。UTOP为0xeec00000，在UTOP和ULIM之间
 的空间内核和用户都只能读不能写。共12M，方内核的一些只读结构。在UTOP以下的给用户用的。
 envs 设定1024个，1左移动10位
+所有的envs都放在env_free_list，curenv表示当前运行的用户程序，刚boot起来他位NULL ,UVPT为ULIM减4M放env 自己的page table
+256个中断异常描述项在中断描述表（IDT），0-31的中断，Intel自己预留，
 ```
