@@ -153,6 +153,8 @@ boot_aps就可以退出while循环继续初始化下一个cpu多cpu工作同时�
 ```
 用户态文件系统，内核态文件系统，随便修改一个小功能都测试周期长，比较麻烦所以出现了FUSE。增加文件系统实现的灵活行，有利于再次开发
 ```
+* ret iret
+ret普通函数调用返回，弹出eip，iret中断调用返回会有cs等寄存器弹出
 * linux运行exe
 ```
 wget http://download.microsoft.com/download/1/1/1/1116b75a-9ec3-481a-a3c8-1777b5381140/vcredist_x86.exe
