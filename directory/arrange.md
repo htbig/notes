@@ -154,7 +154,31 @@ boot_aps就可以退出while循环继续初始化下一个cpu多cpu工作同时�
 用户态文件系统，内核态文件系统，随便修改一个小功能都测试周期长，比较麻烦所以出现了FUSE。增加文件系统实现的灵活行，有利于再次开发
 ```
 * ret iret
+```
 ret普通函数调用返回，弹出eip，iret中断调用返回会有cs等寄存器弹出
+```
+* fork过程
+```
+过程：
+1: 创建sys_exofork一个空的新进程，这个时候设置的子进程env_status为mot_runnable,
+2: 然后将父进程的所有地址空间（虚拟地址物理地址对应关系）全部拷贝到子进程，设置子进程状态为runnable，这样子进程就可以被sheduled_yield调度。
+拷贝方法：
+在子进程addr虚拟地址分配物理地址映射，然后将子进程addr地址map到父进程UTEMP地址，这样父进程访问UTEMP就是访问子进程的addr的物理地址，将父进程
+的addr的内容拷贝到UTMP,然后unmap UTEMP的页，让UTEMP供以后使用，也以免父进程错误操作UTEMP，对应子进程的物理内存页。
+copy on write
+所有的页只是map一下，🔒指向的物理内存还是同一块。
+```
+* 页面错误处理过程
+```
+父子进程任意一个访问的共享内存，会促发页面错误处理，cr2寄存器会存储出错的虚拟地址，进入内核，内核会判断进程有没有设置page_fault_upcall，没有，
+进程destroy掉，有的话，组建UTrapframe,切换用户进程栈到异常栈，将eip设置为env_pgfault_upcall，为一段汇编代码，最后会执行到c代码的pgfault,
+将对应错误虚拟地址的内容拷贝到本进程，然后再退回到进程正常栈会继续出错地方去执行。
+trap
+```
+* 中断
+```
+int指令产生的软中断是不可屏蔽的，时钟中断是可以屏蔽的，受eflags控制
+```
 * linux运行exe
 ```
 wget http://download.microsoft.com/download/1/1/1/1116b75a-9ec3-481a-a3c8-1777b5381140/vcredist_x86.exe
