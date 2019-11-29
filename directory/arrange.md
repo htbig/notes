@@ -181,8 +181,14 @@ int指令产生的软中断是不可屏蔽的，时钟中断是可以屏蔽的�
 ```
 * flask框架是python写的轻量级的web框架
 * 网络从上到下分为
+```
 物理层，数据链路层，网络层（ip icmp igmp arp rarp物理地址到ip转换），传输层（tcp udp），会话层，
 表示层，应用层（http ftp）
+```
+* call jmp区别
+ ```
+ call=push+jmp
+ ```
 * linux运行exe
 ```
 wget http://download.microsoft.com/download/1/1/1/1116b75a-9ec3-481a-a3c8-1777b5381140/vcredist_x86.exe
