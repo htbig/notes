@@ -27,6 +27,8 @@ Narrow Band Internet of Things, NB-IoT
 ```
 node 安装模块用npm install
 python安装模块用pip install 
+flask框架是python写的轻量级的web框架
+express框架是node js实现的快速，开放，极简的web框架
 ```
 * 如何保证数据安全ssl(secure socket layer)/tsl(transport secure layer) 协议知识
 ```
@@ -179,7 +181,6 @@ trap
 ```
 int指令产生的软中断是不可屏蔽的，时钟中断是可以屏蔽的，受eflags控制
 ```
-* flask框架是python写的轻量级的web框架
 * 网络从上到下分为
 ```
 物理层，数据链路层，网络层（ip icmp igmp arp rarp物理地址到ip转换），传输层（tcp udp），会话层，
