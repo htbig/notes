@@ -190,6 +190,10 @@ int指令产生的软中断是不可屏蔽的，时钟中断是可以屏蔽的�
  ```
  call=push+jmp
  ```
+ *  rpc
+ ```
+ 就是不同设备上的进程间如何函数调用，相互协商好标准就好。
+ ```
 * linux运行exe
 ```
 wget http://download.microsoft.com/download/1/1/1/1116b75a-9ec3-481a-a3c8-1777b5381140/vcredist_x86.exe
