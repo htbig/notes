@@ -208,5 +208,6 @@ int指令产生的软中断是不可屏蔽的，时钟中断是可以屏蔽的�
 ```
 * linux运行exe
 ```
-wget http://download.microsoft.com/download/1/1/1/1116b75a-9ec3-481a-a3c8-1777b5381140/vcredist_x86.exe
+apt-get install wine
+wget http://download.microsoft.com/download/1/1/1/1116b75a-9ec3-481a-a3c8-1777b5381140/vcredist_x86.exe并安装
 ```
