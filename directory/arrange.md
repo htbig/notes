@@ -29,6 +29,8 @@ node 安装模块用npm install
 python安装模块用pip install 
 flask框架是python写的轻量级的web框架
 express框架是node js实现的快速，开放，极简的web框架
+events:eventEmitter(on,removeAllListeners,once...)/stream(createReadStream等)/net(tcpServer)
+async await .then .catch try{}catch{}
 ```
 * 如何保证数据安全ssl(secure socket layer)/tsl(transport secure layer) 协议知识
 ```
