@@ -31,6 +31,20 @@ flask框架是python写的轻量级的web框架
 express框架是node js实现的快速，开放，极简的web框架
 events:eventEmitter(on,removeAllListeners,once...)/stream(createReadStream等)/net(tcpServer)
 async await .then .catch try{}catch{}
+ejs模版引擎
+资源全放public目录，包括图片,css文件等
+label
+select
+button
+div(分区)
+<%js代码%>代表js 代码
+node-cron.schedule可以执行定时任务
+简单说promise就是用来执行异步任务的，可以解决上面所说的回调地狱问题
+then-catch-finally
+node --prof 记录堆栈信息在log
+node --prof-process log > txt,由不可读变为可读
+当接口很复杂的时候，GC肯定会变大，当GC占用过多的时候，就要考虑对代码格式进行优化，比如声明过多的变量，导致GC明显增大；这是可以考虑使用变量复用，前面声明的变量生命周期已经结束来，就可以考虑在后面需要声明新变量的时候，复用前面的变量名，唯一的缺点就是，变量的复用，会使得代码可读性变差，这就需要详细的代码注视了。这样一定程度可以减小GC的占用，因为当GC运行的时候，程序是不能做其它任何事情的
+查看耗时的地方，进行异步优化
 ```
 * 如何保证数据安全ssl(secure socket layer)/tsl(transport secure layer) 协议知识
 ```
