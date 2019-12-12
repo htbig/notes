@@ -45,6 +45,8 @@ node --prof 记录堆栈信息在log
 node --prof-process log > txt,由不可读变为可读
 当接口很复杂的时候，GC肯定会变大，当GC占用过多的时候，就要考虑对代码格式进行优化，比如声明过多的变量，导致GC明显增大；这是可以考虑使用变量复用，前面声明的变量生命周期已经结束来，就可以考虑在后面需要声明新变量的时候，复用前面的变量名，唯一的缺点就是，变量的复用，会使得代码可读性变差，这就需要详细的代码注视了。这样一定程度可以减小GC的占用，因为当GC运行的时候，程序是不能做其它任何事情的
 查看耗时的地方，进行异步优化
+setTimeout
+setInterval
 ```
 * 如何保证数据安全ssl(secure socket layer)/tsl(transport secure layer) 协议知识
 ```
@@ -227,3 +229,25 @@ int指令产生的软中断是不可屏蔽的，时钟中断是可以屏蔽的�
 apt-get install wine
 wget http://download.microsoft.com/download/1/1/1/1116b75a-9ec3-481a-a3c8-1777b5381140/vcredist_x86.exe并安装
 ```
+* k8s docker集群搭建
+```
+安装集群必要软件—-etcd/flannel/kubernetes:yum -y install –enablerepo=virt7-docker-common-release kubernetes etcd flannel
+Etcd服务配置共享和服务发现。
+Flannel网络规划服务，让集群不同节点主机创建的Docker容器都具有全集群唯一虚拟IP地址
+etcd kube-apiserver kube-controller-manager kube-scheduler flanneld服务跑起来
+kube-proxy kubelet flanneld docker起来
+设置kupectl配置文件：
+kubectl config set-cluster default-cluster --server=http://192.168.121.9:8080
+kubectl config set-context default-context --cluster=default-cluster --user=default-admin
+kubectl config use-context default-context
+查看集群状态：kubectl get nodes
+spec:
+  replicas: 1 表示起几个pods
+kubectl set image
+更新现有的资源对象的容器镜像
+kubectl apply -f FILENAME
+接受JSON和YAML格式的描述文件或控制台输入，对资源进行配置
+Helm可以看作k8s的aot-get和yum,软件部署，删除，升级，回滚应用的强大功能
+微服务在k8s持续继承部署，借助helm和gitlab-ci完成。
+```
+etcd kube-apiserver kube-controller-manager kube-scheduler flanneld服务
