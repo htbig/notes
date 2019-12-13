@@ -249,5 +249,21 @@ kubectl apply -f FILENAME
 接受JSON和YAML格式的描述文件或控制台输入，对资源进行配置
 Helm可以看作k8s的aot-get和yum,软件部署，删除，升级，回滚应用的强大功能
 微服务在k8s持续继承部署，借助helm和gitlab-ci完成。
-```
 etcd kube-apiserver kube-controller-manager kube-scheduler flanneld服务
+```
+* go make new
+```
+new返回类型指针，make返回引用
+go switch不用break,但是可以使用fallthrough强制执行后面代码,紧跟着的case
+go 变参就是一个slice类型
+copy是新的地址
+指针传值也是copy，copy的指针地址，可以修改结构体，免去较多系统开销
+type testInt func(int) bool函数类型（同样参数同样返回值）
+panic() recover()可以从panic恢复，在defer里申明
+main和init，没有参数和返回值
+一个包被多个包导入，只会被导入一次
+点操作：省略包名
+别名操作：import f fmt
+_操作：不直接使用包里函数，而是调用该包init
+面向对象method,带有接收者函数func(r ReceiverType) funcName(parameters)(results)
+```
