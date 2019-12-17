@@ -266,4 +266,7 @@ main和init，没有参数和返回值
 别名操作：import f fmt
 _操作：不直接使用包里函数，而是调用该包init
 面向对象method,带有接收者函数func(r ReceiverType) funcName(parameters)(results)
+reflect结合interface使用，reflect.ValueOf()
+reflect.TypeOf(),修改值，必须传引用，否则panic: reflect: reflect.flag.mustBeAssignable using unaddressable value
+v,ok:= <-ch ok false 无数据关闭
 ```
