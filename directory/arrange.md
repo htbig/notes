@@ -282,3 +282,4 @@ yum install bcc-tools.x86_64
 ./trace 'p:c:open (STRCMP("/etc/passwd", arg1)) "opening %s %d %d", arg1,$task->pid, $task->parent->pid' -T打
 印出父进程PID，需要查看内核task结构体
 ```
+* valgrind检查内存泄漏
