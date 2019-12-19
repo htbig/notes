@@ -13,6 +13,8 @@ TLSV1.2 版本.
 储有限,或者网络不稳定的情况,阿里iot且在原生mqtt topic基础上实现了rrpc(Revert Remote Procedure Call)同步通讯方式,
 微软是derict method方式.
 还支持http协议,https保证通道安全,它只适合单纯的数据上报场景,显然不适合我们需要C2D的场景
+通过ack保证消息被发出去，qos1可能会发多次，解决方法：将收到ack重发的超时时间设置keepAliveInterval*2。断网不可怕，只要
+iotkit服务不重启，消息都会存在内存里，网络一通就可以继续发送，不会丢数据。
 ```
 * 何为nb-iot
 ```
