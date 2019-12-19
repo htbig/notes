@@ -270,3 +270,11 @@ reflect结合interface使用，reflect.ValueOf()
 reflect.TypeOf(),修改值，必须传引用，否则panic: reflect: reflect.flag.mustBeAssignable using unaddressable value
 v,ok:= <-ch ok false 无数据关闭
 ```
+* ebpf 使用
+```
+yum install bcc-tools.x86_64
+/usr/share/bcc/tools
+./trace 'p:c:open (STRCMP("/etc/passwd", arg1)) "opening %s", arg1' -T
+./trace 'p:c:open (STRCMP("/etc/passwd", arg1)) "opening %s %d %d", arg1,$task->pid, $task->parent->pid' -T打
+印出父进程PID，需要查看内核task结构体
+```
