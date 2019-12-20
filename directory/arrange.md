@@ -283,3 +283,14 @@ yum install bcc-tools.x86_64
 印出父进程PID，需要查看内核task结构体
 ```
 * valgrind检查内存泄漏
+* token
+```
+用户登陆后返回给客户端保存在window.localstorage,每次请求带上这个token
+token产生jwt,用户名,过期时间，admin状态encode产生。
+之后jwt.decode，验证时间是否过期，用户名是否对
+客户端请求路由验证：basic auth,jwt auth,admin status auth
+```
+* basic auth
+```
+usrname:passwd  base64传给服务段，服务端base.decode验证
+```
