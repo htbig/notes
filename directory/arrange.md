@@ -294,3 +294,26 @@ token产生jwt,用户名,过期时间，admin状态encode产生。
 ```
 usrname:passwd  base64传给服务段，服务端base.decode验证
 ```
+* linux proxy
+```
+wget https://github.com/boypt/vmess2json/raw/master/vmess2json.py
+python3 vmess2json.py   --subscribe 'subs' -o 1.json
+docker run -d --privileged=true   -v /root/proxychains/vmess2json/1.json:/etc/v2ray/config.json --name v2ray --network host --restart always v2ray/official
+docker run  --privileged --name redsocks -e ip=x -d --network host --restart always rbbb/redsocks
+git clone https://github.com/rofl0r/proxychains-ng
+cd proxychains-ng
+./configure --prefix=/usr --sysconfdir=/etc
+make 
+make install
+make install-config
+cd .. && rm -rf proxychains-ng
+dynamic_chain
+chain_len = 1 #round_robin_chain和random_chain使用
+proxy_dns 
+remote_dns_subnet 224
+tcp_read_time_out 15000
+tcp_connect_time_out 8000
+[ProxyList]
+socks5  127.0.0.1 1080
+proxychains4 curl 
+```
