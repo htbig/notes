@@ -316,4 +316,11 @@ tcp_connect_time_out 8000
 [ProxyList]
 socks5  127.0.0.1 1080
 proxychains4 curl 
+export  https_proxy=https://127.0.0.1:1080
+export  http_proxy=http://127.0.0.1:1080
+```
+* go build
+```
+export GOPATH=`cd ../../../;pwd`;CC=arm-linux-gnueabihf-gcc GOOS=linux GOARCH=arm CGO_ENABLED=1 go build -ldflags '-linkmode "external" -extldflags "-static"' -i  *.go
+go是运行环境和运行程序一起打包，linkmode参数给c的代码用，静态编译进go可执行文件
 ```
