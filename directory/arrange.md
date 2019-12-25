@@ -331,4 +331,5 @@ go是运行环境和运行程序一起打包，linkmode参数给c的代码用，
 * django
 ```
 bulk_create()批量创建对象，减少SQL查询次数,优化性能
+transaction.atomic事务回滚
 ```
