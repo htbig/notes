@@ -343,4 +343,8 @@ udp首部有UDP长度
 1:明文 2:单项散列（哈希）后存储3:加盐值，salt1+username+salt2+pwmd5求md5码4:故意增加密码计算
 所需消耗的资源和时间。算法中增加因子指明计算强度，让生成彩虹表相当困难。
 ```
-udp首部有UDP长度
+* 性能分析
+```
+perf record -F 99 --call-graph dwarf ./while,调用栈记下来
+perf report
+```
