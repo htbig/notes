@@ -41,7 +41,7 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 - [免费签名](#免费签名)
 - [查看cpu温度](#查看cpu温度)
 - [映射windows目录到linux](#映射windows目录到linux)
-                               
+- [cpi火焰图]（#CPI火焰图）                   
 * 将制作的tf卡内容dd到image文件，然后在dd回其他tf卡
 ```
 dd if=/dev/sdc of=/home/ht/image/image_16
@@ -486,4 +486,8 @@ $ sudo mount -t cifs -o username=TP11060,password=share //192.168.66.198/share .
     cifs：Common Internet File System，可以理解为网络文件系统。
     usrname：访问共享文件夹的用户名,如TP11060
     password：访问密码
+```
+# CPI火焰图
+```
+https://yq.aliyun.com/articles/465499
 ```
