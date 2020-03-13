@@ -9,6 +9,7 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 ## [azure iot](/directory/azure.md)
 ## [CI/CD自动化发布版本](/directory/autoreleaseapp.md)
 ## [OpenNetworkLinux](/directory/ONL.md)
+## [redis](/directory/redis.md)
 
 # 2019 Mar
 - [firefly linux烧image](#firefly烧写)
@@ -299,6 +300,20 @@ count = 2, flags = 0 '\000', B = 0 '\000', noverflow = 0, hash0 = 1012963613, bu
       test = 0x0 "", Name = 0x0 "", Order = 0x0 ""}, {test = 0x0 "", Name = 0x0 "", Order = 0x0 ""}, {
       test = 0x0 "", Name = 0x0 "", Order = 0x0 ""}}, overflow = 0x0}
 ```
+* goroutine
+```
+gopark()--->let g to waiting state
+goready()--->make g runnable
+newm()--->start a new m
+stopm()--->stop currenct m until a new work available
+startm()--->Schedules some M to run the p
+releasep()--->Disassociate p and the current m
+wakep()--->try to add one more p to run g
+malg()--->allocate a new g
+newproc()---> go func会调用的,
+procresize()--->change the number of the processors
+
+```
 # 测试网速
 ```
 测速命令：
@@ -465,6 +480,18 @@ DROP       all  --  anywhere             anywhere
 # 免费签名
 ```
 let's encrypt
+openssl genrsa -out server.key 2048
+openssl req -new -x509 -key server.key -out server.crt -days 365
+openssl genrsa -out ca.key 2048
+openssl req -x509 -new -nodes -key ca.key -subj "/CN=xx@qq.com" -days 5000 -out ca.crt
+openssl req -new -key server.key -subj "/CN=localhost" -out server.csr
+openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 5000
+openssl genrsa -out client.key 2048
+openssl req -new -key client.key -subj "/CN=client" -out client.csr
+openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out client.crt -days 5000
+openssl genrsa -out client2.key 2048
+openssl req -new -key client2.key -subj "/CN=client2" -out client2.csr
+openssl x509 -req -in client2.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out client2.crt -days 5000
 ```
 # 查看cpu温度
 ```
