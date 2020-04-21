@@ -8,7 +8,7 @@ Installed-Size:   56440
 Filename: ./etsnetd.ipk
 Version: 1.0.0
 Priority: optional
-Maintainer: xxx <xxx@etsnet.cn>
+Maintainer: xxx <xxx@xxx.cn>
 Architecture: aarch64_cortex-a53
 License: GPL
 Description: etsnetd service
