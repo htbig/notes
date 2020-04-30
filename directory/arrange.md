@@ -47,8 +47,10 @@ node-cron.schedule可以执行定时任务
 then-catch-finally
 node --prof 记录堆栈信息在log
 node --prof-process log > txt,由不可读变为可读
-当接口很复杂的时候，GC肯定会变大，当GC占用过多的时候，就要考虑对代码格式进行优化，比如声明过多的变量，导致GC明显增大；这是可以考虑使用变量复用，前面声明的变量生命周期已经结束来，就可以考虑在后面需要声明新变量的时候，复用前面的变量名，唯一的缺点就是，变量的复用，会使得代码可读性变差，这就需要详细的代码注视了。这样一定程度可以减小GC的占用，因为当GC运行的时候，程序是不能做其它任何事情的
-查看耗时的地方，进行异步优化
+当接口很复杂的时候，GC肯定会变大，当GC占用过多的时候，就要考虑对代码格式进行优化，比如声明过多的变量，导致GC明显增大；
+这是可以考虑使用变量复用，前面声明的变量生命周期已经结束来，就可以考虑在后面需要声明新变量的时候，复用前面的变量名，
+唯一的缺点就是，变量的复用，会使得代码可读性变差，这就需要详细的代码注视了。这样一定程度可以减小GC的占用，因为当GC运行的时候，
+程序是不能做其它任何事情的查看耗时的地方，进行异步优化
 setTimeout
 setInterval
 ```
@@ -218,7 +220,8 @@ int指令产生的软中断是不可屏蔽的，时钟中断是可以屏蔽的�
  ```
  * 实模式，保护模式
  ```
- 实模式8086时期20根数据总线，最多访问1m空间，没有权限分级，寄存器实16位，不能访问整个1m空间，所以实现了内存分段，16位段寄存器左移4位于偏移地址相加20位，1M空间，这模式，程序员面临的直接物理地址，系统程序和用户程序权限没有区分；保护模式就是32位模式：访问4g空间
+ 实模式8086时期20根数据总线，最多访问1m空间，没有权限分级，寄存器实16位，不能访问整个1m空间，所以实现了内存分段，16位段寄存器左移
+4位于偏移地址相加20位，1M空间，这模式，程序员面临的直接物理地址，系统程序和用户程序权限没有区分；保护模式就是32位模式：访问4g空间
  ```
 * 内存断点
 ```
@@ -298,7 +301,8 @@ usrname:passwd  base64传给服务段，服务端base.decode验证
 ```
 wget https://github.com/boypt/vmess2json/raw/master/vmess2json.py
 python3 vmess2json.py   --subscribe 'subs' -o 1.json
-docker run -d --privileged=true   -v /root/proxychains/vmess2json/1.json:/etc/v2ray/config.json --name v2ray --network host --restart always v2ray/official
+docker run -d --privileged=true   -v /root/proxychains/vmess2json/1.json:/etc/v2ray/config.json 
+--name v2ray --network host --restart always v2ray/official
 docker run  --privileged --name redsocks -e ip=x -d --network host --restart always rbbb/redsocks
 git clone https://github.com/rofl0r/proxychains-ng
 cd proxychains-ng
@@ -321,7 +325,8 @@ export  http_proxy=http://127.0.0.1:1080
 ```
 * go build
 ```
-export GOPATH=`cd ../../../;pwd`;CC=arm-linux-gnueabihf-gcc GOOS=linux GOARCH=arm CGO_ENABLED=1 go build -ldflags '-linkmode "external" -extldflags "-static"' -i  *.go
+export GOPATH=`cd ../../../;pwd`;CC=arm-linux-gnueabihf-gcc GOOS=linux GOARCH=arm CGO_ENABLED=1 
+go build -ldflags '-linkmode "external" -extldflags "-static"' -i  *.go
 go是运行环境和运行程序一起打包，linkmode参数给c的代码用，静态编译进go可执行文件
 ```
 * beego
