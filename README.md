@@ -251,6 +251,8 @@ mac:删路由  sudo route -v delete -net 10.4.32.0 -gateway 172.21.30.127 -netma
 route add -net 10.4.32.0 netmask 255.255.254.0 gw 172.21.30.127
 windowns:
 route add 10.4.32.0 mask 255.255.254.0 172.21.30.127 -p
+linux:
+route del default gw 192.168.2.1 
 ```
 # 启动django
 ```
