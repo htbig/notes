@@ -484,6 +484,22 @@ DROP       all  --  anywhere             anywhere
 查看命令：iptables -L natctrl_FORWARD --line-numbers
 删除命令：iptables -D natctrl_FORWARD 1
 这样自己mac电脑终于可以通过开发版ip转发ping 114.114.114.114通了
+
+iptables --list-rules
+
+iptables -A INPUT -i docker0 -p tcp -m tcp --dport 3000 -j ACCEPT
+iptables -A INPUT -i docker0 -p udp -m udp --dport 9993 -j ACCEPT
+iptables -A INPUT -i docker0 -p tcp -m tcp --dport 9992 -j ACCEPT
+iptables -A INPUT -i br-2b8f520ed913 -p tcp -m tcp --dport 3000 -j ACCEPT
+iptables -A INPUT -i br-2b8f520ed913 -p tcp -m tcp --dport 9992 -j ACCEPT
+iptables -A INPUT -i br-2b8f520ed913 -p udp -m udp --dport 9993 -j ACCEPT
+
+iptables -P INPUT ACCEPT   
+iptables -P OUTPUT ACCEPT  
+
+iptables -P FORWARD ACCEPT
+
+
 ```
 # 免费签名
 ```
