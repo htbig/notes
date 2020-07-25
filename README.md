@@ -32,7 +32,7 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 - [测试网速](#测试网速)
 - [ubuntu服务](#ubuntu服务)
 - [ubuntu deb包制作](#deb包制作)
-- [bash for循环](#bash_for)
+- [bash for循环,随机值](#bash_for)
 - [html_upload](#html_upload)
 - [字符串替换](#字符串替换)
 - [查询文件夹大小](#文件大小命令)
@@ -382,6 +382,11 @@ dpkg -b dirname xxx_new.deb
 # bash_for
 ```
 for ((i=0; i<1000; ++i))  ; do    curl -X GET   http://172.21.78.50:8082/monitor   -H 'authorization: Basic aHQ6MQ=='   -H 'cache-control: no-cache'   -H 'content-type: application/json' ; done
+
+for ((i=0; i<1000000; ++i))  ; do    ./lightctl.sh $(( ( RANDOM % 10 )  + 1 )) ; done
+
+while true         ;do ./lightctl.sh `grep -m1 -ao '[0-14]' /dev/urandom |sed s/0/15/ |head -n1`; done
+
 ```
 # html_upload
 ```
