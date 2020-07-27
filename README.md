@@ -159,6 +159,11 @@ https://github.com/docker/docker.git
  https://github.com/docker/cli
 遇到部署说却libapparmor问题直接进编译环境的container，将环境里的libapparmor.so文件拷贝出来，放到运行编译出来的docker的宿主机上。
 编译cli是用make -f  dockerfile/Dockerfile.dev binary
+命令：
+sudo docker commit -a "ht" -m "use for controller deploy" 204ac8af0a60 controller:v1
+
+sudo docker exec -it 204ac8af0a60 bash 
+
 ```
 # gitlab-ci
 * 安装gitlab
