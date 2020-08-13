@@ -42,6 +42,7 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 - [免费签名](#免费签名)
 - [查看cpu温度](#查看cpu温度)
 - [映射windows目录到linux](#映射windows目录到linux)
+- [tmux](#tmux)
 - [cpi火焰图](#CPI火焰图）
 - [ssh -tt](#ssh -tt)
 * 将制作的tf卡内容dd到image文件，然后在dd回其他tf卡
@@ -551,4 +552,8 @@ https://yq.aliyun.com/articles/465499
 ```
 碰到Pseudo-terminal will not be allocated because stdin is not a terminal.错误，可以加上-tt选项
 来强制伪终端分配，即使标准输入不是终端
+```
+# tmux
+```
+tmux detach -a
 ```
