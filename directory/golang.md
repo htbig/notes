@@ -151,4 +151,6 @@ gogo汇编实现g0到g(即将运行的goroutine)的切换,参数为gp.sched，go
 ## 查看goos/goarch
 ```
 go tool dist list
+GOOS指的是目标操作系统
+GOARCH指的是目标处理器的架构
 ```
