@@ -148,3 +148,7 @@ new g is _Gdead status
 gogo汇编实现g0到g(即将运行的goroutine)的切换,参数为gp.sched，gobuf类型，存放着gp的sp，pc,bp等信息，完成：
 1:g放到tls[0],sp,ret，bp等值从内存里load到寄存器，清0这些内存，将pc放到BX寄存器，然后jmp到BX执行，也就是到gp的func处执行，在系统最开始的时候就是条到runtime.main处执行
 ```
+## 查看goos/goarch
+```
+go tool dist list
+```
