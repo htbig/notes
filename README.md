@@ -45,6 +45,13 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 - [tmux](#tmux)
 - [cpi火焰图](#CPI火焰图）
 - [ssh -tt](#ssh -tt)
+- [随机值](#随机值)
+
+# 随机值
+```
+SCNKZwnv9pbjhBFd
+```
+
 * 将制作的tf卡内容dd到image文件，然后在dd回其他tf卡
 ```
 dd if=/dev/sdc of=/home/ht/image/image_16
