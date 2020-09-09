@@ -70,6 +70,7 @@ SCNKZwnv9pbjhBFd
 56) SIGRTMAX-8  57) SIGRTMAX-7  58) SIGRTMAX-6  59) SIGRTMAX-5
 60) SIGRTMAX-4  61) SIGRTMAX-3  62) SIGRTMAX-2  63) SIGRTMAX-1
 64) SIGRTMAX
+其中kill killall默认发送信号都是SIGTERM
 ```
 * 将制作的tf卡内容dd到image文件，然后在dd回其他tf卡
 ```
