@@ -46,7 +46,7 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 - [cpi火焰图](#CPI火焰图）
 - [ssh -tt](#ssh -tt)
 - [随机值](#随机值)
-- [信号表]（#信号表）
+- [信号表](#信号表)
 
 # 随机值
 ```
