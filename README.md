@@ -43,7 +43,7 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 - [查看cpu温度](#查看cpu温度)
 - [映射windows目录到linux](#映射windows目录到linux)
 - [tmux](#tmux)
-- [cpi火焰图](#CPI火焰图）
+- [cpi火焰图](#CPI火焰图)
 - [ssh -tt](#ssh -tt)
 - [随机值](#随机值)
 - [信号表](#信号表)
