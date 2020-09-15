@@ -47,10 +47,15 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 - [ssh](#ssh -tt)
 - [随机值](#随机值)
 - [信号表](#信号表)
+- [git文件变化](#查看git文件变化)
 
 # 随机值
 ```
 SCNKZwnv9pbjhBFd
+```
+# 查看git文件变化
+```
+git log -p filename
 ```
 # 信号表
 ```
