@@ -48,6 +48,7 @@ hello everyone, i'm ht,ozdkHzDCAAHQpWdFq93b
 - [随机值](#随机值)
 - [信号表](#信号表)
 - [git文件变化](#查看git文件变化)
+- [mysql修改表字段]()
 
 # 随机值
 ```
@@ -588,4 +589,9 @@ https://yq.aliyun.com/articles/465499
 # tmux
 ```
 tmux detach -a
+```
+# mysql修改表字段
+```
+select * from information_schema.COLUMNS where table_name='version_info';
+ALTER TABLE version_info CHANGE `desc` `desc` VARCHAR( 1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
 ```
