@@ -45,6 +45,7 @@ SPOP act:101 1随机抽取一个元素，且删除元素
 %3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%22%E8%AE%BE%E7%BD%AEkey%20value%E5%88%B0%E5%86%85%E5%AD%98%EF%BC%8C%E5%B0%86AE_WRITEABLE%E4%BA%8B%E4%BB%B6%E4%B8%8E%E5%AE%A2%E6%88%B7%E7%9B%B8%E5%BA%94%E5%A4%84%E7%90%86%E5%99%A8%E7%BB%91%E5%AE%9A%22%20style%3D%22rounded%3D0%3BwhiteSpace%3Dwrap%3Bhtml%3D1%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%22790%22%20y%3D%22119%22%20width%3D%2290%22%20height%3D%2280%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E
 ```
 
-
-
-
+## 批量删数据
+```
+redis-cli -a 123456 keys "*1323683688461795328*" | xargs redis-cli -a 123456 del
+```
