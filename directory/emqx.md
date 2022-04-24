@@ -1,5 +1,8 @@
 ## 需要配置文件
+- 不带证书
 ![image](https://user-images.githubusercontent.com/15257651/164962587-ee76fb13-02d6-4c8b-898d-6e9c1fcb0f3d.png)
+- 带证书
+![image](https://user-images.githubusercontent.com/15257651/164965167-8e83779b-38b8-4821-8a46-e5269e1993e7.png)
 
 ## 配置文件内容
 
