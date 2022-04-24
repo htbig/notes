@@ -38,6 +38,36 @@ auth.user.1.password = oooo
 ##auth.user.3.password = pwsswd~!@#$%^&*()_+
 
 ```
+- acl.conf
+
+```
+%%--------------------------------------------------------------------
+%% [ACL](https://docs.emqx.io/broker/v3/en/config.html)
+%%
+%% -type(who() :: all | binary() |
+%%                {ipaddr, esockd_access:cidr()} |
+%%                {client, binary()} |
+%%                {user, binary()}).
+%%
+%% -type(access() :: subscribe | publish | pubsub).
+%%
+%% -type(topic() :: binary()).
+%%
+%% -type(rule() :: {allow, all} |
+%%                 {allow, who(), access(), list(topic())} |
+%%                 {deny, all} |
+%%                 {deny, who(), access(), list(topic())}).
+%%--------------------------------------------------------------------
+{allow, all, subscribe, ["$SYS/brokers/+/clients/#"]}.
+
+{allow, {user, "dashboard"}, subscribe, ["$SYS/#"]}.
+
+{allow, {ipaddr, "127.0.0.1"}, pubsub, ["$SYS/#", "#"]}.
+
+{deny, all, subscribe, ["$SYS/#", {eq, "#"}]}.
+
+{allow, all}.
+```
 - loaded_plugins
 
 ```
