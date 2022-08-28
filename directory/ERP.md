@@ -2,7 +2,7 @@
 ```
 ERP系统和电子标签对接程序编写：
 curl -X POST \
-  http://218.108.7.116:8001/api/v1/post_common \
+  http://xxxxx:8001/api/v1/post_common \
   -H 'cache-control: no-cache' \
   -H 'content-type: application/json' \
   -H 'postman-token: 431adb81-557c-5664-9470-f95d883dbb51' \
@@ -78,7 +78,7 @@ curl -X POST \
 
 rrpc:
 curl -X POST \
-  http://10.4.32.114:8085/rrpc \
+  http://xxxxxx:8085/rrpc \
   -H 'cache-control: no-cache' \
   -H 'content-type: application/json' \
   -H 'postman-token: 719eb4b6-9778-d0c9-a342-338471259fbc' \
