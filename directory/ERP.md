@@ -7,7 +7,7 @@ curl -X POST \
   -H 'content-type: application/json' \
   -H 'postman-token: 431adb81-557c-5664-9470-f95d883dbb51' \
   -d '{
-    "x-access-token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiSFowODgwOCJ9.hpuBiupMSHaEu9LKOOms8PknZ1cXqxi1uBVoMMMiAIQ",
+    "x-access-token": "eyJ1NiJ9.eyJ1c2VyIjoiSFowODgwOCJ9VoMMMiAIQ",
     "command": "query_all_commodity"
 }‘
 '得到ERP系统所有商品信息：
