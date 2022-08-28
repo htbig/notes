@@ -19,7 +19,7 @@ auth.mnesia.password_hash = sha256
 ##--------------------------------------------------------------------
 
 ## Examples
-##auth.client.1.clientid = media-test-mibp-connector-iotserver
+##auth.client.1.clientid = xxx
 ##auth.client.1.password = public
 ##auth.client.2.clientid = dev:devid
 ##auth.client.2.password = passwd2
